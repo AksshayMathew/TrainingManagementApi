@@ -11,4 +11,7 @@ public class Course
     public int Duration { get; set; }
 
     public string TrainerName { get; set; } = string.Empty;
+
+    /// <summary>One course has many training assignments (one per employee it is assigned to).</summary>
+    public ICollection<TrainingAssignment> TrainingAssignments { get; set; } = new List<TrainingAssignment>();
 }

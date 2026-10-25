@@ -91,6 +91,76 @@ namespace TrainingManagementApi.Migrations
                             t.HasCheckConstraint("CK_Employee_Experience_NonNegative", "[Experience] >= 0");
                         });
                 });
+
+            modelBuilder.Entity("TrainingManagementApi.Models.TrainingAssignment", b =>
+                {
+                    b.Property<int>("AssignmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AssignmentId"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("AssignmentId");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("EmployeeId", "CourseId")
+                        .IsUnique()
+                        .HasDatabaseName("UX_TrainingAssignment_Employee_Course");
+
+                    b.ToTable("TrainingAssignment", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_TrainingAssignment_EndDate_OnOrAfterStartDate", "[EndDate] >= [StartDate]");
+
+                            t.HasCheckConstraint("CK_TrainingAssignment_Status_Valid", "[Status] IN ('Assigned', 'In Progress', 'Completed')");
+                        });
+                });
+
+            modelBuilder.Entity("TrainingManagementApi.Models.TrainingAssignment", b =>
+                {
+                    b.HasOne("TrainingManagementApi.Models.Course", "Course")
+                        .WithMany("TrainingAssignments")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TrainingManagementApi.Models.Employee", "Employee")
+                        .WithMany("TrainingAssignments")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("TrainingManagementApi.Models.Course", b =>
+                {
+                    b.Navigation("TrainingAssignments");
+                });
+
+            modelBuilder.Entity("TrainingManagementApi.Models.Employee", b =>
+                {
+                    b.Navigation("TrainingAssignments");
+                });
 #pragma warning restore 612, 618
         }
     }

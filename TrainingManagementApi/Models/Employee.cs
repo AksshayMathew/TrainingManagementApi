@@ -16,4 +16,7 @@ public class Employee
 
     /// <summary>Years of experience; 0 or greater.</summary>
     public int Experience { get; set; }
+
+    /// <summary>One employee has many training assignments.</summary>
+    public ICollection<TrainingAssignment> TrainingAssignments { get; set; } = new List<TrainingAssignment>();
 }

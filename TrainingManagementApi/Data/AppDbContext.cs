@@ -13,6 +13,8 @@ public class AppDbContext : DbContext
 
     public DbSet<Course> Courses => Set<Course>();
 
+    public DbSet<TrainingAssignment> TrainingAssignments => Set<TrainingAssignment>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Picks up every IEntityTypeConfiguration<T> in this assembly (see Data/Configurations).
