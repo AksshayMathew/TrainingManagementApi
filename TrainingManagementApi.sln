@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainingManagementApi", "TrainingManagementApi\TrainingManagementApi.csproj", "{3E6BC5CA-AD85-486B-9BEA-CA42A95B42A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainingManagementApi.Tests", "TrainingManagementApi.Tests\TrainingManagementApi.Tests.csproj", "{56815486-9D1B-45DD-9FE6-FB494A606354}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{3E6BC5CA-AD85-486B-9BEA-CA42A95B42A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E6BC5CA-AD85-486B-9BEA-CA42A95B42A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E6BC5CA-AD85-486B-9BEA-CA42A95B42A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56815486-9D1B-45DD-9FE6-FB494A606354}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56815486-9D1B-45DD-9FE6-FB494A606354}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56815486-9D1B-45DD-9FE6-FB494A606354}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56815486-9D1B-45DD-9FE6-FB494A606354}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
