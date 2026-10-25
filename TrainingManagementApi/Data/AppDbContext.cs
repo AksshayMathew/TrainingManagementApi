@@ -11,6 +11,8 @@ public class AppDbContext : DbContext
 
     public DbSet<Employee> Employees => Set<Employee>();
 
+    public DbSet<Course> Courses => Set<Course>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Picks up every IEntityTypeConfiguration<T> in this assembly (see Data/Configurations).

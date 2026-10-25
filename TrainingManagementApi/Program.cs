@@ -15,6 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 
 // Services (business rules). Scoped = one instance per HTTP request, matching the DbContext lifetime.
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

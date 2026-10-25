@@ -17,4 +17,14 @@ public static class TestData
         joiningDate = "2026-01-15T00:00:00",
         experience
     };
+
+    public static object NewCourse(
+        string name = "Intro to Testing",
+        int duration = 8,
+        string trainer = "Anita Desai") => new
+    {
+        courseName = name,
+        duration,
+        trainerName = trainer
+    };
 }

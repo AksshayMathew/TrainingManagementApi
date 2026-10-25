@@ -22,6 +22,35 @@ namespace TrainingManagementApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("TrainingManagementApi.Models.Course", b =>
+                {
+                    b.Property<int>("CourseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CourseId"));
+
+                    b.Property<string>("CourseName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TrainerName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("CourseId");
+
+                    b.ToTable("Course", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_Course_Duration_Positive", "[Duration] > 0");
+                        });
+                });
+
             modelBuilder.Entity("TrainingManagementApi.Models.Employee", b =>
                 {
                     b.Property<int>("EmployeeId")
