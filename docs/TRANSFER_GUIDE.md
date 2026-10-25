@@ -1,7 +1,7 @@
 # Moving the project to your office laptop, one step at a time
 
-This repository was built as **15 small steps**. Each step is one Git commit with a tag (`step-00-...` to `step-14-...`),
-and **every step builds on its own** (steps 0-13 were each checked out in a clean folder, built and tested; step 14 only adds documentation).
+This repository was built as **16 small steps**. Each step is one Git commit with a tag (`step-00-...` to `step-15-...`),
+and **every step builds on its own** (each was checked out in a clean folder, built and tested).
 You bring the steps to the office laptop one by one: copy the step, build it, run it, commit it with your office identity.
 The office repository then grows in the same order the project was built.
 
@@ -70,7 +70,7 @@ Tips:
 - Don't worry that the copy shows many files for one step - that is the commit. Read `git diff --staged` before you commit; it is the best way to learn.
 - If `-ExecutionPolicy Bypass` is blocked by policy, open the `.ps1` file and run the same `git archive` command by hand, or ask for the files to be copied in Explorer.
 
-## 5. The 15 steps
+## 5. The 16 steps
 
 Suggested pace follows the assignment's 3-day plan. The commit messages below are *suggestions in plain wording* - use your own.
 
@@ -91,12 +91,14 @@ Suggested pace follows the assignment's 3-day plan. The commit messages below ar
 | 3 | 12 | `step-12-postman-and-evidence` | Postman collection, no-install runner script, evidence folder | import the collection in Postman and run it | `Add Postman collection and API test evidence` |
 | 3 | 13 | `step-13-startup-resilience` | migration retry at start-up, safer settings parsing, tests | `dotnet test` -> 171 passed, 2 skipped | `Retry migrations at start-up and harden settings` |
 | 3 | 14 | `step-14-readme-and-docs` | README, explanation, demo script, trace, this guide | read them | `Add README and project documentation` |
+| 3 | 15 | `step-15-final-review-fixes` | final review: newer test packages (no known vulnerabilities), clearer "database not found" start-up message, Docker connection note (`127.0.0.1`) | `dotnet test` -> 171 passed, 2 skipped | `Upgrade test packages and clarify start-up messages` |
 
 Notes
 - Step 10's Docker files are optional; the evidence files in step 12 were produced on the personal laptop - **replace them with your own
   screenshots and run output from the office laptop** (see section 8) before you submit.
 - You do **not** need to copy `scripts/export-step.ps1` itself to the office repo.
 - If you must hand in less history, you can merge neighbours (e.g. steps 10-13 in one commit) - use `-Step` for each, then commit once.
+- Step 15 changes files from earlier steps (test `.csproj`, `DatabaseInitializer.cs`, README, this guide): the script simply overwrites them, which is what you want.
 
 ## 6. Visual Studio walkthrough (recommended at the office)
 
@@ -118,6 +120,7 @@ VS Code instead: install *C# Dev Kit*, open the folder, then `dotnet run --proje
 |---|---|
 | `A compatible .NET SDK was not found` | install any .NET 8 SDK (`global.json` accepts 8.0.100 or newer within 8.0) |
 | `A network-related or instance-specific error ... LocalDB` | LocalDB instance missing: `sqllocaldb create MSSQLLocalDB` then `sqllocaldb start MSSQLLocalDB`; or use another server via user-secrets (README section 1) |
+| The API takes ~30-40 s to start, then every data call is a 500; the log says `The system cannot find the file specified` | LocalDB is not installed / the instance does not exist (see the LocalDB row above). The API retries 5 times before giving up, hence the delay |
 | The API starts but every data call is a 500 | read the console: the start-up message says why the migration failed (server unreachable, bad connection string) |
 | `Failed to restore` / NuGet errors | the office network or proxy blocks nuget.org: configure the internal feed in `nuget.config` |
 | Build errors about long paths | move the repo to a short folder such as `C:\work\...` |

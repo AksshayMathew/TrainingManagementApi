@@ -48,7 +48,9 @@ public static class DatabaseInitializer
                     app.Logger.LogCritical(ex,
                         "Could not apply database migrations after {Attempts} attempt(s). The API keeps running, but " +
                         "database calls will fail (HTTP 500) until the database is reachable and the API is restarted. " +
-                        "Check ConnectionStrings:DefaultConnection.", attempts);
+                        "Check ConnectionStrings:DefaultConnection. With LocalDB, 'The system cannot find the file specified' " +
+                        "usually means it is not installed or the instance is missing: run 'sqllocaldb info' " +
+                        "(create it with 'sqllocaldb create MSSQLLocalDB'); see README section 1.", attempts);
                     return;
                 }
 

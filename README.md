@@ -62,11 +62,13 @@ or an environment variable: `ConnectionStrings__DefaultConnection`.
 ### Optional: SQL Server in Docker
 ```bash
 copy .env.example .env          # then edit .env and choose your own SA password
-docker compose up -d            # starts SQL Server 2022 on localhost,1433
-dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=localhost,1433;Database=TrainingManagementDb;User Id=sa;Password=<your password>;TrustServerCertificate=True;Encrypt=False;MultipleActiveResultSets=true" --project TrainingManagementApi
+docker compose up -d            # starts SQL Server 2022 on 127.0.0.1,1433
+dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=127.0.0.1,1433;Database=TrainingManagementDb;User Id=sa;Password=<your password>;TrustServerCertificate=True;Encrypt=False;MultipleActiveResultSets=true" --project TrainingManagementApi
 dotnet run --project TrainingManagementApi
 ```
-If the API starts before SQL Server is ready it retries for about 15 seconds before giving up (see *Resilience*).
+Use `127.0.0.1`, not `localhost`, in that connection string: the container is published on the IPv4 loopback address only, and
+`localhost` may resolve to the IPv6 address first, which refuses the connection.
+SQL Server needs about 20-30 seconds to start; if the API starts sooner it retries for about 15 seconds before giving up (see *Resilience*).
 
 ### Database creation script / migrations
 - EF Core migrations live in `TrainingManagementApi/Migrations` (`InitialCreate`, `AddCourse`, `AddTrainingAssignment`).
@@ -234,7 +236,7 @@ Employee 1 ----< TrainingAssignment >---- 1 Course
 
 Example for the real-SQL-Server run (PowerShell):
 ```powershell
-$env:TMS_TEST_SQLSERVER = "Server=localhost,1433;User Id=sa;Password=<your password>;TrustServerCertificate=True;Encrypt=False"
+$env:TMS_TEST_SQLSERVER = "Server=127.0.0.1,1433;User Id=sa;Password=<your password>;TrustServerCertificate=True;Encrypt=False"
 dotnet test
 ```
 
