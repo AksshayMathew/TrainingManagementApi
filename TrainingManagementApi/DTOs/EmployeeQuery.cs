@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using TrainingManagementApi.Models;
 
 namespace TrainingManagementApi.DTOs;
 
@@ -22,10 +23,12 @@ public class EmployeeQuery
 {
     /// <summary>Text to look for in the employee name or department (not case-sensitive, matches part of a word).</summary>
     /// <example>priya</example>
+    [StringLength(FieldLimits.EmployeeNameMaxLength, ErrorMessage = "Search text cannot be longer than {1} characters.")]
     public string? Search { get; set; }
 
     /// <summary>Only employees of exactly this department (not case-sensitive).</summary>
     /// <example>Engineering</example>
+    [StringLength(FieldLimits.DepartmentMaxLength, ErrorMessage = "Department cannot be longer than {1} characters.")]
     public string? Department { get; set; }
 
     /// <summary>Field to sort by: Id (default), Name, Department, JoiningDate or Experience.</summary>

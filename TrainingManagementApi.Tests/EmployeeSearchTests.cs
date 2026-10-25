@@ -264,6 +264,17 @@ public class EmployeeSearchTests : IClassFixture<ApiFactory>
     // ---------- invalid query options ----------
 
     [Theory]
+    [InlineData("search")]
+    [InlineData("department")]
+    public async Task OverlongSearchText_Returns400(string option)
+    {
+        var response = await _client.GetAsync($"/api/employees?{option}={new string('x', 101)}");
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.True((await response.ReadErrorsAsync()).ContainsKey(option));   // keys are matched ignoring case
+    }
+
+    [Theory]
     [InlineData("page=0", "Page")]
     [InlineData("page=-1", "Page")]
     [InlineData("page=1000001", "Page")]
