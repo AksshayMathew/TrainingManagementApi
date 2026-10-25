@@ -1,6 +1,6 @@
 # API test evidence - Employee Training Management API
 
-- Run: 2026-10-25T19:01:07.231Z
+- Run: 2026-10-25T19:15:19.202Z
 - API: http://localhost:5282
 - Collection: `postman\TrainingManagementApi.postman_collection.json`
 - Result: **43 requests, 74 tests passed, 0 failed**
@@ -63,21 +63,21 @@ Request body:
 ```json
 {
   "employeeName": "Priya Sharma",
-  "email": "postman.1792954865246.282@abctechnologies.com",
+  "email": "postman.1792955717703.215@abctechnologies.com",
   "department": "Engineering",
   "joiningDate": "2026-01-15T00:00:00",
   "experience": 3
 }
 ```
 
-Response headers: `location: http://localhost:5282/api/employees/1`, `content-type: application/json; charset=utf-8`
+Response headers: `location: http://localhost:5282/api/employees/1002`, `content-type: application/json; charset=utf-8`
 
 Response body:
 ```json
 {
-  "employeeId": 1,
+  "employeeId": 1002,
   "employeeName": "Priya Sharma",
-  "email": "postman.1792954865246.282@abctechnologies.com",
+  "email": "postman.1792955717703.215@abctechnologies.com",
   "department": "Engineering",
   "joiningDate": "2026-01-15T00:00:00",
   "experience": 3
@@ -96,7 +96,7 @@ Request body:
 ```json
 {
   "employeeName": "Someone Else",
-  "email": "postman.1792954865246.282@abctechnologies.com",
+  "email": "postman.1792955717703.215@abctechnologies.com",
   "department": "Engineering",
   "joiningDate": "2026-01-15T00:00:00",
   "experience": 3
@@ -115,7 +115,7 @@ Response body:
       "An employee with this email already exists."
     ]
   },
-  "traceId": "0HNPIP97A6J93:00000001"
+  "traceId": "0HNPIPH6TD04L:00000001"
 }
 ```
 
@@ -130,7 +130,7 @@ Request body:
 ```json
 {
   "employeeName": "",
-  "email": "postman.1792954866240.600@abctechnologies.com",
+  "email": "postman.1792955718382.455@abctechnologies.com",
   "department": "Engineering",
   "joiningDate": "2026-01-15T00:00:00",
   "experience": 3
@@ -150,7 +150,7 @@ Response body:
       "Employee name is required."
     ]
   },
-  "traceId": "00-6fa170c79ee08b004fb711ddae794ca9-2293ae07ee4a86c6-00"
+  "traceId": "00-0c543a84f8bcbabcbde1ced02223aaab-febcb7f09bff9539-00"
 }
 ```
 
@@ -165,7 +165,7 @@ Request body:
 ```json
 {
   "employeeName": "Priya Sharma",
-  "email": "postman.1792954866255.292@abctechnologies.com",
+  "email": "postman.1792955718393.644@abctechnologies.com",
   "department": "Engineering",
   "joiningDate": "2026-01-15T00:00:00",
   "experience": -1
@@ -185,7 +185,7 @@ Response body:
       "Experience cannot be negative and cannot be more than 60 years."
     ]
   },
-  "traceId": "00-38c3c76ea81d34fa30fa4977895b6b4c-afa4130509aa1137-00"
+  "traceId": "00-bb920ff7f66690f7b3555cabfbc41608-d7262be7da252207-00"
 }
 ```
 
@@ -231,7 +231,7 @@ Response body:
       "Employee name is required."
     ]
   },
-  "traceId": "00-f927b6b69b5fb23a5edcce994921ad33-8e9fdb40613b459c-00"
+  "traceId": "00-d77f2d5022f5c89c2bf9d609523305c0-a3733d1429a9c329-00"
 }
 ```
 
@@ -248,9 +248,9 @@ Response body:
 ```json
 [
   {
-    "employeeId": 1,
+    "employeeId": 1002,
     "employeeName": "Priya Sharma",
-    "email": "postman.1792954865246.282@abctechnologies.com",
+    "email": "postman.1792955717703.215@abctechnologies.com",
     "department": "Engineering",
     "joiningDate": "2026-01-15T00:00:00",
     "experience": 3
@@ -271,9 +271,9 @@ Response body:
 ```json
 [
   {
-    "employeeId": 1,
+    "employeeId": 1002,
     "employeeName": "Priya Sharma",
-    "email": "postman.1792954865246.282@abctechnologies.com",
+    "email": "postman.1792955717703.215@abctechnologies.com",
     "department": "Engineering",
     "joiningDate": "2026-01-15T00:00:00",
     "experience": 3
@@ -301,7 +301,7 @@ Response body:
       "Page must be between 1 and 1000000."
     ]
   },
-  "traceId": "00-0ce9cf0bac5779c0286350ba31455515-1409ba4128e46c26-00"
+  "traceId": "00-ebb38f386882a8085437a3e57eb5a09a-82438fff9485b5fe-00"
 }
 ```
 
@@ -310,16 +310,16 @@ Response body:
 
 ### 9. Get employee by id (200)
 
-`GET http://localhost:5282/api/employees/1` -> **200**
+`GET http://localhost:5282/api/employees/1002` -> **200**
 
 Response headers: `content-type: application/json; charset=utf-8`
 
 Response body:
 ```json
 {
-  "employeeId": 1,
+  "employeeId": 1002,
   "employeeName": "Priya Sharma",
-  "email": "postman.1792954865246.282@abctechnologies.com",
+  "email": "postman.1792955717703.215@abctechnologies.com",
   "department": "Engineering",
   "joiningDate": "2026-01-15T00:00:00",
   "experience": 3
@@ -341,7 +341,7 @@ Response body:
   "title": "Resource not found.",
   "status": 404,
   "detail": "Employee with id 999999 was not found.",
-  "traceId": "0HNPIP97A6J93:00000005"
+  "traceId": "0HNPIPH6TD04L:00000005"
 }
 ```
 
@@ -365,7 +365,7 @@ Response body:
       "The value 'abc' is not valid."
     ]
   },
-  "traceId": "00-9e719f1630651ab29b8f6e3450da6a69-d5bc58889b988c8d-00"
+  "traceId": "00-990a563a8e7f9b05151330d07a056b98-3ab03fa15e497000-00"
 }
 ```
 
@@ -373,13 +373,13 @@ Response body:
 
 ### 12. Update employee (200)
 
-`PUT http://localhost:5282/api/employees/1` -> **200**
+`PUT http://localhost:5282/api/employees/1002` -> **200**
 
 Request body:
 ```json
 {
   "employeeName": "Priya Sharma-Rao",
-  "email": "postman.1792954866255.292@abctechnologies.com",
+  "email": "postman.1792955718393.644@abctechnologies.com",
   "department": "Platform",
   "joiningDate": "2026-01-15T00:00:00",
   "experience": 4
@@ -391,9 +391,9 @@ Response headers: `content-type: application/json; charset=utf-8`
 Response body:
 ```json
 {
-  "employeeId": 1,
+  "employeeId": 1002,
   "employeeName": "Priya Sharma-Rao",
-  "email": "postman.1792954866255.292@abctechnologies.com",
+  "email": "postman.1792955718393.644@abctechnologies.com",
   "department": "Platform",
   "joiningDate": "2026-01-15T00:00:00",
   "experience": 4
@@ -411,7 +411,7 @@ Request body:
 ```json
 {
   "employeeName": "Priya Sharma",
-  "email": "nobody.1792954866@abctechnologies.com",
+  "email": "nobody.1792955718@abctechnologies.com",
   "department": "Engineering",
   "joiningDate": "2026-01-15T00:00:00",
   "experience": 3
@@ -426,7 +426,7 @@ Response body:
   "title": "Resource not found.",
   "status": 404,
   "detail": "Employee with id 999999 was not found.",
-  "traceId": "0HNPIP97A6J92:00000007"
+  "traceId": "0HNPIPH6TD04K:00000007"
 }
 ```
 
@@ -447,12 +447,12 @@ Request body:
 }
 ```
 
-Response headers: `location: http://localhost:5282/api/courses/1`, `content-type: application/json; charset=utf-8`
+Response headers: `location: http://localhost:5282/api/courses/1002`, `content-type: application/json; charset=utf-8`
 
 Response body:
 ```json
 {
-  "courseId": 1,
+  "courseId": 1002,
   "courseName": "ASP.NET Core Web API Fundamentals",
   "duration": 16,
   "trainerName": "Anita Desai"
@@ -489,7 +489,7 @@ Response body:
       "Duration must be greater than 0 and cannot be more than 10000."
     ]
   },
-  "traceId": "00-2696e79c9c34a71ec975583f941cef63-4a08bc07d11d4078-00"
+  "traceId": "00-91a47f00e43f995fa136c2b65e658090-3d8566f3afafb38c-00"
 }
 ```
 
@@ -521,7 +521,7 @@ Response body:
       "Trainer name is required."
     ]
   },
-  "traceId": "00-c6376cbc90f6b5b8f9a5ae343475193b-645f5d3751147f29-00"
+  "traceId": "00-b780d977b0729c7ed1ad2539868c5f49-959af1ff9deb24a7-00"
 }
 ```
 
@@ -538,7 +538,7 @@ Response body:
 ```json
 [
   {
-    "courseId": 1,
+    "courseId": 1002,
     "courseName": "ASP.NET Core Web API Fundamentals",
     "duration": 16,
     "trainerName": "Anita Desai"
@@ -551,14 +551,14 @@ Response body:
 
 ### 18. Get course by id (200)
 
-`GET http://localhost:5282/api/courses/1` -> **200**
+`GET http://localhost:5282/api/courses/1002` -> **200**
 
 Response headers: `content-type: application/json; charset=utf-8`
 
 Response body:
 ```json
 {
-  "courseId": 1,
+  "courseId": 1002,
   "courseName": "ASP.NET Core Web API Fundamentals",
   "duration": 16,
   "trainerName": "Anita Desai"
@@ -579,7 +579,7 @@ Response body:
   "title": "Resource not found.",
   "status": 404,
   "detail": "Course with id 999999 was not found.",
-  "traceId": "0HNPIP97A6J92:0000000A"
+  "traceId": "0HNPIPH6TD04K:0000000A"
 }
 ```
 
@@ -588,7 +588,7 @@ Response body:
 
 ### 20. Update course (200)
 
-`PUT http://localhost:5282/api/courses/1` -> **200**
+`PUT http://localhost:5282/api/courses/1002` -> **200**
 
 Request body:
 ```json
@@ -604,7 +604,7 @@ Response headers: `content-type: application/json; charset=utf-8`
 Response body:
 ```json
 {
-  "courseId": 1,
+  "courseId": 1002,
   "courseName": "ASP.NET Core Web API - Advanced",
   "duration": 24,
   "trainerName": "Anita Desai"
@@ -635,7 +635,7 @@ Response body:
   "title": "Resource not found.",
   "status": 404,
   "detail": "Course with id 999999 was not found.",
-  "traceId": "0HNPIP97A6J92:0000000B"
+  "traceId": "0HNPIPH6TD04K:0000000B"
 }
 ```
 
@@ -650,22 +650,22 @@ Response body:
 Request body:
 ```json
 {
-  "employeeId": 1,
-  "courseId": 1,
+  "employeeId": 1002,
+  "courseId": 1002,
   "startDate": "2026-02-01T00:00:00",
   "endDate": "2026-02-05T00:00:00"
 }
 ```
 
-Response headers: `location: http://localhost:5282/api/training-assignments/1`, `content-type: application/json; charset=utf-8`
+Response headers: `location: http://localhost:5282/api/training-assignments/1002`, `content-type: application/json; charset=utf-8`
 
 Response body:
 ```json
 {
-  "assignmentId": 1,
-  "employeeId": 1,
+  "assignmentId": 1002,
+  "employeeId": 1002,
   "employeeName": "Priya Sharma-Rao",
-  "courseId": 1,
+  "courseId": 1002,
   "courseName": "ASP.NET Core Web API - Advanced",
   "trainerName": "Anita Desai",
   "startDate": "2026-02-01T00:00:00",
@@ -685,8 +685,8 @@ Response body:
 Request body:
 ```json
 {
-  "employeeId": 1,
-  "courseId": 1,
+  "employeeId": 1002,
+  "courseId": 1002,
   "startDate": "2026-02-01T00:00:00",
   "endDate": "2026-02-05T00:00:00"
 }
@@ -704,7 +704,7 @@ Response body:
       "This employee is already assigned to this course."
     ]
   },
-  "traceId": "0HNPIP97A6J92:0000000C"
+  "traceId": "0HNPIPH6TD04K:0000000C"
 }
 ```
 
@@ -718,8 +718,8 @@ Response body:
 Request body:
 ```json
 {
-  "employeeId": 1,
-  "courseId": 1,
+  "employeeId": 1002,
+  "courseId": 1002,
   "startDate": "2026-03-10T00:00:00",
   "endDate": "2026-03-01T00:00:00"
 }
@@ -738,7 +738,7 @@ Response body:
       "End date cannot be before start date."
     ]
   },
-  "traceId": "00-21f4b6a4aa9fd8a7f5b8bd9a775049b2-b30546ca9b25ff2f-00"
+  "traceId": "00-f65e209087fda0f4b502c0a54d0eb9f3-82bfebc4cc00ef5d-00"
 }
 ```
 
@@ -753,7 +753,7 @@ Request body:
 ```json
 {
   "employeeId": 999999,
-  "courseId": 1,
+  "courseId": 1002,
   "startDate": "2026-02-01T00:00:00",
   "endDate": "2026-02-05T00:00:00"
 }
@@ -767,7 +767,7 @@ Response body:
   "title": "Resource not found.",
   "status": 404,
   "detail": "Employee with id 999999 was not found.",
-  "traceId": "0HNPIP97A6J92:0000000D"
+  "traceId": "0HNPIPH6TD04K:0000000D"
 }
 ```
 
@@ -781,7 +781,7 @@ Response body:
 Request body:
 ```json
 {
-  "employeeId": 1,
+  "employeeId": 1002,
   "courseId": 999999,
   "startDate": "2026-02-01T00:00:00",
   "endDate": "2026-02-05T00:00:00"
@@ -796,7 +796,7 @@ Response body:
   "title": "Resource not found.",
   "status": 404,
   "detail": "Course with id 999999 was not found.",
-  "traceId": "0HNPIP97A6J93:0000000D"
+  "traceId": "0HNPIPH6TD04L:0000000D"
 }
 ```
 
@@ -809,8 +809,8 @@ Response body:
 Request body:
 ```json
 {
-  "employeeId": 1,
-  "courseId": 1,
+  "employeeId": 1002,
+  "courseId": 1002,
   "startDate": "2026-02-01T00:00:00",
   "endDate": "2026-02-05T00:00:00",
   "status": "Finished"
@@ -830,7 +830,7 @@ Response body:
       "Status must be one of: Assigned, In Progress, Completed."
     ]
   },
-  "traceId": "00-d2598b50ef25d0bd73c653f945632fd2-bb14a95ab565d2a7-00"
+  "traceId": "00-0e01476115f1862fe6736eedd7e56a49-e30a59677a70cb0e-00"
 }
 ```
 
@@ -839,7 +839,7 @@ Response body:
 
 ### 28. View all trainings for the employee (200)
 
-`GET http://localhost:5282/api/employees/1/trainings` -> **200**
+`GET http://localhost:5282/api/employees/1002/trainings` -> **200**
 
 Response headers: `content-type: application/json; charset=utf-8`
 
@@ -847,10 +847,10 @@ Response body:
 ```json
 [
   {
-    "assignmentId": 1,
-    "employeeId": 1,
+    "assignmentId": 1002,
+    "employeeId": 1002,
     "employeeName": "Priya Sharma-Rao",
-    "courseId": 1,
+    "courseId": 1002,
     "courseName": "ASP.NET Core Web API - Advanced",
     "trainerName": "Anita Desai",
     "startDate": "2026-02-01T00:00:00",
@@ -875,7 +875,7 @@ Response body:
   "title": "Resource not found.",
   "status": 404,
   "detail": "Employee with id 999999 was not found.",
-  "traceId": "0HNPIP97A6J92:0000000F"
+  "traceId": "0HNPIPH6TD04K:0000000F"
 }
 ```
 
@@ -883,17 +883,17 @@ Response body:
 
 ### 30. Get assignment by id (200)
 
-`GET http://localhost:5282/api/training-assignments/1` -> **200**
+`GET http://localhost:5282/api/training-assignments/1002` -> **200**
 
 Response headers: `content-type: application/json; charset=utf-8`
 
 Response body:
 ```json
 {
-  "assignmentId": 1,
-  "employeeId": 1,
+  "assignmentId": 1002,
+  "employeeId": 1002,
   "employeeName": "Priya Sharma-Rao",
-  "courseId": 1,
+  "courseId": 1002,
   "courseName": "ASP.NET Core Web API - Advanced",
   "trainerName": "Anita Desai",
   "startDate": "2026-02-01T00:00:00",
@@ -906,7 +906,7 @@ Response body:
 
 ### 31. Update status to In Progress (200)
 
-`PUT http://localhost:5282/api/training-assignments/1/status` -> **200**
+`PUT http://localhost:5282/api/training-assignments/1002/status` -> **200**
 
 Request body:
 ```json
@@ -920,10 +920,10 @@ Response headers: `content-type: application/json; charset=utf-8`
 Response body:
 ```json
 {
-  "assignmentId": 1,
-  "employeeId": 1,
+  "assignmentId": 1002,
+  "employeeId": 1002,
   "employeeName": "Priya Sharma-Rao",
-  "courseId": 1,
+  "courseId": 1002,
   "courseName": "ASP.NET Core Web API - Advanced",
   "trainerName": "Anita Desai",
   "startDate": "2026-02-01T00:00:00",
@@ -937,7 +937,7 @@ Response body:
 
 ### 32. Update status to Completed (200)
 
-`PUT http://localhost:5282/api/training-assignments/1/status` -> **200**
+`PUT http://localhost:5282/api/training-assignments/1002/status` -> **200**
 
 Request body:
 ```json
@@ -951,10 +951,10 @@ Response headers: `content-type: application/json; charset=utf-8`
 Response body:
 ```json
 {
-  "assignmentId": 1,
-  "employeeId": 1,
+  "assignmentId": 1002,
+  "employeeId": 1002,
   "employeeName": "Priya Sharma-Rao",
-  "courseId": 1,
+  "courseId": 1002,
   "courseName": "ASP.NET Core Web API - Advanced",
   "trainerName": "Anita Desai",
   "startDate": "2026-02-01T00:00:00",
@@ -968,7 +968,7 @@ Response body:
 
 ### 33. Update status - invalid value (400)
 
-`PUT http://localhost:5282/api/training-assignments/1/status` -> **400**
+`PUT http://localhost:5282/api/training-assignments/1002/status` -> **400**
 
 Request body:
 ```json
@@ -990,7 +990,7 @@ Response body:
       "Status must be one of: Assigned, In Progress, Completed."
     ]
   },
-  "traceId": "00-9680b5e70378df80140f644442a9a10a-77a49dacb2dc4db8-00"
+  "traceId": "00-3e4419332b5e5ce673a12aa62d171f53-cdfb5f3835fa6f8c-00"
 }
 ```
 
@@ -1016,7 +1016,7 @@ Response body:
   "title": "Resource not found.",
   "status": 404,
   "detail": "Training assignment with id 999999 was not found.",
-  "traceId": "0HNPIP97A6J93:00000011"
+  "traceId": "0HNPIPH6TD04L:00000011"
 }
 ```
 
@@ -1024,7 +1024,7 @@ Response body:
 
 ### 35. Delete employee who has trainings (400)
 
-`DELETE http://localhost:5282/api/employees/1` -> **400**
+`DELETE http://localhost:5282/api/employees/1002` -> **400**
 
 Response headers: `content-type: application/problem+json`
 
@@ -1038,7 +1038,7 @@ Response body:
       "This employee still has training assignments. Delete those assignments first."
     ]
   },
-  "traceId": "0HNPIP97A6J92:00000012"
+  "traceId": "0HNPIPH6TD04K:00000012"
 }
 ```
 
@@ -1047,7 +1047,7 @@ Response body:
 
 ### 36. Delete course that is assigned (400)
 
-`DELETE http://localhost:5282/api/courses/1` -> **400**
+`DELETE http://localhost:5282/api/courses/1002` -> **400**
 
 Response headers: `content-type: application/problem+json`
 
@@ -1061,7 +1061,7 @@ Response body:
       "This course is still assigned to employees. Delete those assignments first."
     ]
   },
-  "traceId": "0HNPIP97A6J93:00000012"
+  "traceId": "0HNPIPH6TD04L:00000012"
 }
 ```
 
@@ -1072,14 +1072,14 @@ Response body:
 
 ### 37. Delete training assignment (200)
 
-`DELETE http://localhost:5282/api/training-assignments/1` -> **200**
+`DELETE http://localhost:5282/api/training-assignments/1002` -> **200**
 
 Response headers: `content-type: application/json; charset=utf-8`
 
 Response body:
 ```json
 {
-  "message": "Training assignment 1 was deleted."
+  "message": "Training assignment 1002 was deleted."
 }
 ```
 
@@ -1087,7 +1087,7 @@ Response body:
 
 ### 38. Get deleted assignment (404)
 
-`GET http://localhost:5282/api/training-assignments/1` -> **404**
+`GET http://localhost:5282/api/training-assignments/1002` -> **404**
 
 Response headers: `content-type: application/problem+json`
 
@@ -1096,8 +1096,8 @@ Response body:
 {
   "title": "Resource not found.",
   "status": 404,
-  "detail": "Training assignment with id 1 was not found.",
-  "traceId": "0HNPIP97A6J93:00000013"
+  "detail": "Training assignment with id 1002 was not found.",
+  "traceId": "0HNPIPH6TD04L:00000013"
 }
 ```
 
@@ -1115,7 +1115,7 @@ Response body:
   "title": "Resource not found.",
   "status": 404,
   "detail": "Training assignment with id 999999 was not found.",
-  "traceId": "0HNPIP97A6J92:00000014"
+  "traceId": "0HNPIPH6TD04K:00000014"
 }
 ```
 
@@ -1123,14 +1123,14 @@ Response body:
 
 ### 40. Delete employee (200)
 
-`DELETE http://localhost:5282/api/employees/1` -> **200**
+`DELETE http://localhost:5282/api/employees/1002` -> **200**
 
 Response headers: `content-type: application/json; charset=utf-8`
 
 Response body:
 ```json
 {
-  "message": "Employee 1 was deleted."
+  "message": "Employee 1002 was deleted."
 }
 ```
 
@@ -1138,7 +1138,7 @@ Response body:
 
 ### 41. Delete employee again (404)
 
-`DELETE http://localhost:5282/api/employees/1` -> **404**
+`DELETE http://localhost:5282/api/employees/1002` -> **404**
 
 Response headers: `content-type: application/problem+json`
 
@@ -1147,8 +1147,8 @@ Response body:
 {
   "title": "Resource not found.",
   "status": 404,
-  "detail": "Employee with id 1 was not found.",
-  "traceId": "0HNPIP97A6J92:00000015"
+  "detail": "Employee with id 1002 was not found.",
+  "traceId": "0HNPIPH6TD04K:00000015"
 }
 ```
 
@@ -1156,14 +1156,14 @@ Response body:
 
 ### 42. Delete course (200)
 
-`DELETE http://localhost:5282/api/courses/1` -> **200**
+`DELETE http://localhost:5282/api/courses/1002` -> **200**
 
 Response headers: `content-type: application/json; charset=utf-8`
 
 Response body:
 ```json
 {
-  "message": "Course 1 was deleted."
+  "message": "Course 1002 was deleted."
 }
 ```
 
@@ -1171,7 +1171,7 @@ Response body:
 
 ### 43. Delete course - not found (404)
 
-`DELETE http://localhost:5282/api/courses/1` -> **404**
+`DELETE http://localhost:5282/api/courses/1002` -> **404**
 
 Response headers: `content-type: application/problem+json`
 
@@ -1180,8 +1180,8 @@ Response body:
 {
   "title": "Resource not found.",
   "status": 404,
-  "detail": "Course with id 1 was not found.",
-  "traceId": "0HNPIP97A6J92:00000016"
+  "detail": "Course with id 1002 was not found.",
+  "traceId": "0HNPIPH6TD04K:00000016"
 }
 ```
 
