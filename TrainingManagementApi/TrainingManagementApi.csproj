@@ -6,8 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <!-- Produces XML comments that Swagger shows as endpoint/field descriptions. -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <!-- CS1591 = "missing XML comment"; we only document what is useful, not every member. -->
-    <NoWarn>$(NoWarn);1591</NoWarn>
+    <!-- CS1591/CS1573 = "missing XML comment / param tag"; we only document what is useful, not every member or CancellationToken. -->
+    <NoWarn>$(NoWarn);1591;1573</NoWarn>
     <UserSecretsId>8a87c732-4d79-4eea-bf05-dd0a47751d2a</UserSecretsId>
   </PropertyGroup>
 
