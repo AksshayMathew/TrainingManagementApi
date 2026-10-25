@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using TrainingManagementApi.Data;
+using TrainingManagementApi.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,22 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Employee Training Management API",
+        Version = "v1",
+        Description = "ABC Technologies - manage employees, training courses and the training assigned to each employee."
+    });
+
+    // Show the /// comments from the code as descriptions in Swagger. Guarded so a missing file can never stop startup.
+    var xmlFile = Path.Combine(AppContext.BaseDirectory, $"{typeof(Program).Assembly.GetName().Name}.xml");
+    if (File.Exists(xmlFile))
+    {
+        options.IncludeXmlComments(xmlFile);
+    }
+});
 
 var app = builder.Build();
 
@@ -22,8 +39,17 @@ if (string.IsNullOrWhiteSpace(connectionString))
 
 await app.ApplyMigrationsAsync();
 
+// Must be first so it can catch exceptions from everything below it.
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
+// Swagger stays on in every environment because this is a training project. For production, disable it or protect it.
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Training Management API v1"));
 
 app.MapControllers();
 
