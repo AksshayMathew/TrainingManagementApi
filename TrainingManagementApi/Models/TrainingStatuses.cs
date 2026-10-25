@@ -9,17 +9,20 @@ public static class TrainingStatuses
 
     public static readonly IReadOnlyList<string> All = new[] { Assigned, InProgress, Completed };
 
+    /// <summary>The message shown to clients when a status is not one of <see cref="All"/>.</summary>
+    public static string InvalidStatusMessage => $"Status must be one of: {string.Join(", ", All)}.";
+
     /// <summary>
-    /// Matches a status ignoring case, spaces and punctuation, so "in progress", "In-Progress" and
-    /// "InProgress" all become the canonical "In Progress".
+    /// Matches a status ignoring case, spaces, hyphens and underscores, so "in progress", "In-Progress" and
+    /// "InProgress" all become the canonical "In Progress". Anything else (e.g. "Done", "Completed2") is rejected.
     /// </summary>
     public static bool TryNormalize(string? value, out string normalized)
     {
-        var key = LettersOnly(value);
+        var key = Squash(value);
 
         foreach (var status in All)
         {
-            if (key.Equals(LettersOnly(status), StringComparison.OrdinalIgnoreCase))
+            if (key.Equals(Squash(status), StringComparison.OrdinalIgnoreCase))
             {
                 normalized = status;
                 return true;
@@ -30,6 +33,6 @@ public static class TrainingStatuses
         return false;
     }
 
-    private static string LettersOnly(string? value) =>
-        new((value ?? string.Empty).Where(char.IsLetter).ToArray());
+    private static string Squash(string? value) =>
+        new((value ?? string.Empty).Where(c => !char.IsWhiteSpace(c) && c != '-' && c != '_').ToArray());
 }

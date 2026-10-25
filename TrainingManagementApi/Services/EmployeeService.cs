@@ -116,6 +116,12 @@ public class EmployeeService : IEmployeeService
             .FirstOrDefaultAsync(e => e.EmployeeId == id, cancellationToken)
             ?? throw new NotFoundException(nameof(Employee), id);
 
+        // Training history is never deleted by accident: the assignments must be removed first.
+        if (await HasTrainingAssignmentsAsync(id, cancellationToken))
+        {
+            throw EmployeeHasAssignments();
+        }
+
         _db.Employees.Remove(employee);
 
         try
@@ -126,9 +132,25 @@ public class EmployeeService : IEmployeeService
         {
             throw new NotFoundException(nameof(Employee), id);
         }
+        catch (DbUpdateException)
+        {
+            // An assignment was added after our check; the foreign key refused the delete.
+            if (await HasTrainingAssignmentsAsync(id, cancellationToken))
+            {
+                throw EmployeeHasAssignments();
+            }
+
+            throw;
+        }
 
         _logger.LogInformation("Employee deleted. EmployeeId={EmployeeId}", id);
     }
+
+    private Task<bool> HasTrainingAssignmentsAsync(int employeeId, CancellationToken cancellationToken) =>
+        _db.TrainingAssignments.AnyAsync(a => a.EmployeeId == employeeId, cancellationToken);
+
+    private static BusinessRuleException EmployeeHasAssignments() =>
+        new("EmployeeId", "This employee still has training assignments. Delete those assignments first.");
 
     /// <summary>E-mail addresses are compared without regard to case, so we always store them trimmed and lower-case.</summary>
     private static string NormalizeEmail(string email) => email.Trim().ToLowerInvariant();

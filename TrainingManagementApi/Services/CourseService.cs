@@ -78,6 +78,12 @@ public class CourseService : ICourseService
             .FirstOrDefaultAsync(c => c.CourseId == id, cancellationToken)
             ?? throw new NotFoundException(nameof(Course), id);
 
+        // Training history is never deleted by accident: the assignments must be removed first.
+        if (await IsAssignedToEmployeesAsync(id, cancellationToken))
+        {
+            throw CourseIsAssigned();
+        }
+
         _db.Courses.Remove(course);
 
         try
@@ -88,9 +94,25 @@ public class CourseService : ICourseService
         {
             throw new NotFoundException(nameof(Course), id);
         }
+        catch (DbUpdateException)
+        {
+            // An assignment was added after our check; the foreign key refused the delete.
+            if (await IsAssignedToEmployeesAsync(id, cancellationToken))
+            {
+                throw CourseIsAssigned();
+            }
+
+            throw;
+        }
 
         _logger.LogInformation("Course deleted. CourseId={CourseId}", id);
     }
+
+    private Task<bool> IsAssignedToEmployeesAsync(int courseId, CancellationToken cancellationToken) =>
+        _db.TrainingAssignments.AnyAsync(a => a.CourseId == courseId, cancellationToken);
+
+    private static BusinessRuleException CourseIsAssigned() =>
+        new("CourseId", "This course is still assigned to employees. Delete those assignments first.");
 
     private static void ApplyRequest(Course course, CourseRequestDto request)
     {
