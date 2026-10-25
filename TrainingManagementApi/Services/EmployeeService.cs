@@ -18,14 +18,33 @@ public class EmployeeService : IEmployeeService
         _logger = logger;
     }
 
-    public async Task<IReadOnlyList<EmployeeDto>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<PagedResult<EmployeeDto>> GetAllAsync(EmployeeQuery query, CancellationToken cancellationToken = default)
     {
-        var employees = await _db.Employees
-            .AsNoTracking()
-            .OrderBy(e => e.EmployeeId)
+        var employees = ApplyFilters(_db.Employees.AsNoTracking(), query);
+        var ordered = ApplySorting(employees, query);
+
+        if (!query.IsPaged)
+        {
+            var all = await ordered.ToListAsync(cancellationToken);
+            return new PagedResult<EmployeeDto> { Items = all.Select(MapToDto).ToList(), TotalCount = all.Count };
+        }
+
+        var page = query.Page ?? 1;
+        var pageSize = query.PageSize ?? EmployeeQuery.DefaultPageSize;
+
+        var totalCount = await employees.CountAsync(cancellationToken);
+        var pageItems = await ordered
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync(cancellationToken);
 
-        return employees.Select(MapToDto).ToList();
+        return new PagedResult<EmployeeDto>
+        {
+            Items = pageItems.Select(MapToDto).ToList(),
+            TotalCount = totalCount,
+            Page = page,
+            PageSize = pageSize
+        };
     }
 
     public async Task<EmployeeDto> GetByIdAsync(int id, CancellationToken cancellationToken = default)
@@ -151,6 +170,47 @@ public class EmployeeService : IEmployeeService
 
     private static BusinessRuleException EmployeeHasAssignments() =>
         new("EmployeeId", "This employee still has training assignments. Delete those assignments first.");
+
+    private static IQueryable<Employee> ApplyFilters(IQueryable<Employee> employees, EmployeeQuery query)
+    {
+        // Lower-casing both sides makes the comparison case-insensitive on every database.
+        if (!string.IsNullOrWhiteSpace(query.Search))
+        {
+            var term = query.Search.Trim().ToLowerInvariant();
+            employees = employees.Where(e =>
+                e.EmployeeName.ToLower().Contains(term) || e.Department.ToLower().Contains(term));
+        }
+
+        if (!string.IsNullOrWhiteSpace(query.Department))
+        {
+            var department = query.Department.Trim().ToLowerInvariant();
+            employees = employees.Where(e => e.Department.ToLower() == department);
+        }
+
+        return employees;
+    }
+
+    private static IOrderedQueryable<Employee> ApplySorting(IQueryable<Employee> employees, EmployeeQuery query)
+    {
+        var descending = query.SortOrder == SortOrder.Desc;
+
+        var ordered = query.SortBy switch
+        {
+            EmployeeSortField.Name => descending
+                ? employees.OrderByDescending(e => e.EmployeeName) : employees.OrderBy(e => e.EmployeeName),
+            EmployeeSortField.Department => descending
+                ? employees.OrderByDescending(e => e.Department) : employees.OrderBy(e => e.Department),
+            EmployeeSortField.JoiningDate => descending
+                ? employees.OrderByDescending(e => e.JoiningDate) : employees.OrderBy(e => e.JoiningDate),
+            EmployeeSortField.Experience => descending
+                ? employees.OrderByDescending(e => e.Experience) : employees.OrderBy(e => e.Experience),
+            _ => descending
+                ? employees.OrderByDescending(e => e.EmployeeId) : employees.OrderBy(e => e.EmployeeId)
+        };
+
+        // Tie-breaker: without it, rows with equal values could swap places between pages.
+        return query.SortBy == EmployeeSortField.Id ? ordered : ordered.ThenBy(e => e.EmployeeId);
+    }
 
     /// <summary>E-mail addresses are compared without regard to case, so we always store them trimmed and lower-case.</summary>
     private static string NormalizeEmail(string email) => email.Trim().ToLowerInvariant();

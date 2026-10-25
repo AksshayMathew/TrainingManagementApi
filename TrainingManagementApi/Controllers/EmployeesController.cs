@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using TrainingManagementApi.DTOs;
 using TrainingManagementApi.Interfaces;
@@ -18,12 +19,28 @@ public class EmployeesController : ControllerBase
         _employeeService = employeeService;
     }
 
-    /// <summary>Get all employees.</summary>
+    /// <summary>Get all employees, optionally searched, filtered, sorted and paged.</summary>
+    /// <remarks>
+    /// With no query options every employee is returned. The response header <c>X-Total-Count</c> holds the number of
+    /// employees that matched; when paging is used <c>X-Page</c> and <c>X-Page-Size</c> are added as well.
+    /// Example: <c>GET /api/employees?search=priya&amp;sortBy=Experience&amp;sortOrder=Desc&amp;page=1&amp;pageSize=5</c>
+    /// </remarks>
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<EmployeeDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<IReadOnlyList<EmployeeDto>>> GetAll(CancellationToken cancellationToken)
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IReadOnlyList<EmployeeDto>>> GetAll(
+        [FromQuery] EmployeeQuery query, CancellationToken cancellationToken)
     {
-        return Ok(await _employeeService.GetAllAsync(cancellationToken));
+        var result = await _employeeService.GetAllAsync(query, cancellationToken);
+
+        Response.Headers["X-Total-Count"] = result.TotalCount.ToString(CultureInfo.InvariantCulture);
+        if (result.Page.HasValue && result.PageSize.HasValue)
+        {
+            Response.Headers["X-Page"] = result.Page.Value.ToString(CultureInfo.InvariantCulture);
+            Response.Headers["X-Page-Size"] = result.PageSize.Value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        return Ok(result.Items);
     }
 
     /// <summary>Get one employee by id.</summary>

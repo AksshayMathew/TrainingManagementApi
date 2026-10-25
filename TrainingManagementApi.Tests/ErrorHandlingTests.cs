@@ -108,7 +108,7 @@ public class ErrorHandlingTests : IClassFixture<ApiFactory>
     {
         private static InvalidOperationException Boom() => new(SecretInternalDetail);
 
-        public Task<IReadOnlyList<EmployeeDto>> GetAllAsync(CancellationToken cancellationToken = default) => throw Boom();
+        public Task<PagedResult<EmployeeDto>> GetAllAsync(EmployeeQuery query, CancellationToken cancellationToken = default) => throw Boom();
         public Task<EmployeeDto> GetByIdAsync(int id, CancellationToken cancellationToken = default) => throw Boom();
         public Task<EmployeeDto> CreateAsync(EmployeeRequestDto request, CancellationToken cancellationToken = default) => throw Boom();
         public Task<EmployeeDto> UpdateAsync(int id, EmployeeRequestDto request, CancellationToken cancellationToken = default) => throw Boom();

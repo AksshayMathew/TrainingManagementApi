@@ -4,7 +4,8 @@ namespace TrainingManagementApi.Interfaces;
 
 public interface IEmployeeService
 {
-    Task<IReadOnlyList<EmployeeDto>> GetAllAsync(CancellationToken cancellationToken = default);
+    /// <summary>Lists employees, optionally searched, filtered, sorted and paged (see <see cref="EmployeeQuery"/>).</summary>
+    Task<PagedResult<EmployeeDto>> GetAllAsync(EmployeeQuery query, CancellationToken cancellationToken = default);
 
     /// <exception cref="Exceptions.NotFoundException">No employee has this id.</exception>
     Task<EmployeeDto> GetByIdAsync(int id, CancellationToken cancellationToken = default);
