@@ -292,4 +292,5 @@ The assignment leaves some details open. These are the decisions taken (each is 
 | [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md) | 10-minute demo plan + likely questions and answers |
 | [docs/REQUIREMENTS_TRACE.md](docs/REQUIREMENTS_TRACE.md) | Every requirement -> the code and tests that satisfy it |
 | [docs/TRANSFER_GUIDE.md](docs/TRANSFER_GUIDE.md) | Moving the project to another laptop one commit at a time |
-| [docs/ASSIGNMENT.md](docs/ASSIGNMENT.md) | The original assignment text |
+
+_The original assignment brief is an internal document, so it is intentionally not part of this repository._

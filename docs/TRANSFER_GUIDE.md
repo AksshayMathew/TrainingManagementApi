@@ -1,6 +1,6 @@
 # Moving the project to your office laptop, one step at a time
 
-This repository was built as **16 small steps**. Each step is one Git commit with a tag (`step-00-...` to `step-15-...`),
+This repository was built as **17 small steps**. Each step is one Git commit with a tag (`step-00-...` to `step-16-...`),
 and **every step builds on its own** (each was checked out in a clean folder, built and tested).
 You bring the steps to the office laptop one by one: copy the step, build it, run it, commit it with your office identity.
 The office repository then grows in the same order the project was built.
@@ -70,13 +70,13 @@ Tips:
 - Don't worry that the copy shows many files for one step - that is the commit. Read `git diff --staged` before you commit; it is the best way to learn.
 - If `-ExecutionPolicy Bypass` is blocked by policy, open the `.ps1` file and run the same `git archive` command by hand, or ask for the files to be copied in Explorer.
 
-## 5. The 16 steps
+## 5. The 17 steps
 
 Suggested pace follows the assignment's 3-day plan. The commit messages below are *suggestions in plain wording* - use your own.
 
 | Day | Step | Tag | What it adds | How to check it | Suggested commit message |
 |---|---|---|---|---|---|
-| 1 | 0 | `step-00-docs-and-repo-hygiene` | the assignment text in `docs/`, `.gitattributes`, `.editorconfig` | files appear | `Add assignment notes and repo settings` |
+| 1 | 0 | `step-00-docs-and-repo-hygiene` | `.gitattributes`, `.editorconfig` (line endings and formatting) | two files appear | `Add assignment notes and repo settings` |
 | 1 | 1 | `step-01-scaffold` | solution + Web API project, `global.json`, `dotnet-ef` tool, Swagger | `dotnet build` ok; `dotnet run` shows Swagger (empty) | `Create .NET 8 Web API solution` |
 | 1 | 2 | `step-02-ef-core-employee-entity` | EF Core packages, `Employee`, `AppDbContext`, first migration, start-up migrate | `dotnet run` creates `TrainingManagementDb`; look at the `Employee` table | `Add EF Core, Employee entity and first migration` |
 | 1 | 3 | `step-03-error-handling` | `NotFoundException`, `BusinessRuleException`, global exception middleware | `dotnet build` ok | `Add global exception handling middleware` |
@@ -92,6 +92,7 @@ Suggested pace follows the assignment's 3-day plan. The commit messages below ar
 | 3 | 13 | `step-13-startup-resilience` | migration retry at start-up, safer settings parsing, tests | `dotnet test` -> 171 passed, 2 skipped | `Retry migrations at start-up and harden settings` |
 | 3 | 14 | `step-14-readme-and-docs` | README, explanation, demo script, trace, this guide | read them | `Add README and project documentation` |
 | 3 | 15 | `step-15-final-review-fixes` | final review: newer test packages (no known vulnerabilities), clearer "database not found" start-up message, Docker connection note (`127.0.0.1`) | `dotnet test` -> 171 passed, 2 skipped | `Upgrade test packages and clarify start-up messages` |
+| 3 | 16 | `step-16-prepare-public-release` | removes the references to the (internal) assignment brief; documentation only | read the README | `Update documentation for public release` |
 
 Notes
 - Step 10's Docker files are optional; the evidence files in step 12 were produced on the personal laptop - **replace them with your own

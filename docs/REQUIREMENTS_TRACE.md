@@ -1,6 +1,6 @@
 # Requirements trace: assignment -> code -> tests
 
-Section numbers refer to [ASSIGNMENT.md](ASSIGNMENT.md). Paths are relative to `TrainingManagementApi/` (code) and
+Section numbers refer to the assignment brief (an internal document that is not included in this repository). Paths are relative to `TrainingManagementApi/` (code) and
 `TrainingManagementApi.Tests/` (tests). Use this to answer "where did you implement X?" quickly.
 
 ## 2. Technology requirements
