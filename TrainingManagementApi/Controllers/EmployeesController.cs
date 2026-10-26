@@ -19,12 +19,15 @@ public class EmployeesController : ControllerBase
         _employeeService = employeeService;
     }
 
-    /// <summary>Get all employees, optionally searched, filtered, sorted and paged.</summary>
+    /// <summary>List employees (search, filter, sort and page are optional).</summary>
     /// <remarks>
-    /// With no query options every employee is returned. The response header <c>X-Total-Count</c> holds the number of
-    /// employees that matched; when paging is used <c>X-Page</c> and <c>X-Page-Size</c> are added as well.
-    /// Example: <c>GET /api/employees?search=priya&amp;sortBy=Experience&amp;sortOrder=Desc&amp;page=1&amp;pageSize=5</c>
+    /// Leave every option empty to get all employees. The header <c>X-Total-Count</c> tells how many employees matched;
+    /// with paging, <c>X-Page</c> and <c>X-Page-Size</c> are added too.
+    ///
+    /// Example: <c>search=priya</c>, <c>sortBy=Experience</c>, <c>sortOrder=Desc</c>, <c>page=1</c>, <c>pageSize=5</c>.
     /// </remarks>
+    /// <response code="200">The employees (an empty list if nobody matches).</response>
+    /// <response code="400">An option is invalid, for example page 0 or an unknown sortBy value. The <c>errors</c> list says which.</response>
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<EmployeeDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -44,7 +47,10 @@ public class EmployeesController : ControllerBase
     }
 
     /// <summary>Get one employee by id.</summary>
-    /// <param name="id">The employee id.</param>
+    /// <param name="id">The employee id (the <c>employeeId</c> returned when the employee was created).</param>
+    /// <response code="200">The employee.</response>
+    /// <response code="400">The id is not a whole number (for example <c>abc</c>).</response>
+    /// <response code="404">No employee has this id.</response>
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(EmployeeDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -55,6 +61,9 @@ public class EmployeesController : ControllerBase
     }
 
     /// <summary>Create a new employee.</summary>
+    /// <remarks>Copy the <c>employeeId</c> from the response - you need it to assign training. Each e-mail address can be used only once.</remarks>
+    /// <response code="201">Created. The new employee is returned and the <c>Location</c> header links to it.</response>
+    /// <response code="400">A field is missing or invalid, or the e-mail address is already used. The <c>errors</c> list says which field and why.</response>
     [HttpPost]
     [ProducesResponseType(typeof(EmployeeDto), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -65,8 +74,11 @@ public class EmployeesController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = created.EmployeeId }, created);
     }
 
-    /// <summary>Replace all details of an existing employee.</summary>
-    /// <param name="id">The employee id.</param>
+    /// <summary>Update an employee (send all fields).</summary>
+    /// <param name="id">The id of the employee to change.</param>
+    /// <response code="200">Updated. The new details are returned.</response>
+    /// <response code="400">A field is invalid, or the e-mail address belongs to another employee.</response>
+    /// <response code="404">No employee has this id.</response>
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(EmployeeDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -78,7 +90,10 @@ public class EmployeesController : ControllerBase
     }
 
     /// <summary>Delete an employee.</summary>
-    /// <param name="id">The employee id.</param>
+    /// <param name="id">The id of the employee to delete.</param>
+    /// <response code="200">Deleted.</response>
+    /// <response code="400">The employee still has training assignments - delete those first - or the id is not a whole number.</response>
+    /// <response code="404">No employee has this id.</response>
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(MessageDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]

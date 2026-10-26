@@ -18,7 +18,8 @@ public class CoursesController : ControllerBase
         _courseService = courseService;
     }
 
-    /// <summary>Get all courses.</summary>
+    /// <summary>List all courses.</summary>
+    /// <response code="200">The courses (an empty list if there are none yet).</response>
     [HttpGet]
     [ProducesResponseType(typeof(IReadOnlyList<CourseDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IReadOnlyList<CourseDto>>> GetAll(CancellationToken cancellationToken)
@@ -27,7 +28,10 @@ public class CoursesController : ControllerBase
     }
 
     /// <summary>Get one course by id.</summary>
-    /// <param name="id">The course id.</param>
+    /// <param name="id">The course id (the <c>courseId</c> returned when the course was created).</param>
+    /// <response code="200">The course.</response>
+    /// <response code="400">The id is not a whole number (for example <c>abc</c>).</response>
+    /// <response code="404">No course has this id.</response>
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(CourseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -38,6 +42,9 @@ public class CoursesController : ControllerBase
     }
 
     /// <summary>Create a new course.</summary>
+    /// <remarks>Copy the <c>courseId</c> from the response - you need it to assign the course to an employee. Duration is in hours and must be above 0.</remarks>
+    /// <response code="201">Created. The new course is returned and the <c>Location</c> header links to it.</response>
+    /// <response code="400">A field is missing or invalid (for example duration 0). The <c>errors</c> list says which field and why.</response>
     [HttpPost]
     [ProducesResponseType(typeof(CourseDto), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -48,8 +55,11 @@ public class CoursesController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = created.CourseId }, created);
     }
 
-    /// <summary>Replace all details of an existing course.</summary>
-    /// <param name="id">The course id.</param>
+    /// <summary>Update a course (send all fields).</summary>
+    /// <param name="id">The id of the course to change.</param>
+    /// <response code="200">Updated. The new details are returned.</response>
+    /// <response code="400">A field is missing or invalid.</response>
+    /// <response code="404">No course has this id.</response>
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(CourseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
@@ -61,7 +71,10 @@ public class CoursesController : ControllerBase
     }
 
     /// <summary>Delete a course.</summary>
-    /// <param name="id">The course id.</param>
+    /// <param name="id">The id of the course to delete.</param>
+    /// <response code="200">Deleted.</response>
+    /// <response code="400">The course is still assigned to employees - delete those training assignments first - or the id is not a whole number.</response>
+    /// <response code="404">No course has this id.</response>
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(MessageDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]

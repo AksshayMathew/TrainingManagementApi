@@ -95,7 +95,7 @@ separation" the assignment asks for.
 | **E-mail stored lower-case** | `Priya@X.com` is saved as `priya@x.com` | Makes "unique" mean the same thing on every database (SQL Server ignores case, SQLite doesn't). |
 | **Nullable `int?`/`DateTime?` in request DTOs** | Used only for *required* numbers/dates | A plain `int` silently becomes `0` when the client forgets it, hiding the mistake. `int?` + `[Required]` reports "Experience is required". |
 | **Swagger + XML comments** | `///` comments become the descriptions you see in Swagger | Documentation that can't go stale; "test every endpoint" is one click each. |
-| **Tests as the safety net** | 173 integration tests that call the real API over HTTP; same tests run on SQLite (fast) and real SQL Server | "No mistakes" needs proof. A refactor that breaks a rule fails a test immediately. |
+| **Tests as the safety net** | 180 integration tests that call the real API over HTTP; same tests run on SQLite (fast) and real SQL Server | "No mistakes" needs proof. A refactor that breaks a rule fails a test immediately. |
 
 ## 5. Where each business rule lives
 

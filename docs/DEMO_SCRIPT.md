@@ -10,7 +10,7 @@ Below is a minute-by-minute plan. Say it in your own words - the bullets are pro
   `Services/TrainingAssignmentService.cs`, `Data/Configurations/TrainingAssignmentConfiguration.cs`,
   `Middleware/ExceptionHandlingMiddleware.cs`.
 - Have SQL Server Object Explorer (Visual Studio) or SSMS open on `TrainingManagementDb`.
-- Optional: run `dotnet test` once beforehand so you can say "173 tests, all green".
+- Optional: run `dotnet test` once beforehand so you can say "180 tests, all green".
 
 ## Timeline
 
@@ -59,7 +59,7 @@ Pick **one** and explain it well (the README, section 7, has more):
 - or **optimistic concurrency** (a row version) so two HR users editing the same employee can't overwrite each other silently.
 - or **run migrations in the deployment pipeline** and turn off start-up migration, plus health checks and structured logging.
 
-Closing line: *"173 automated tests pass on SQLite and on real SQL Server, and the Postman run of 43 requests has no failures."*
+Closing line: *"180 automated tests pass on SQLite and on real SQL Server, and the Postman run of 43 requests has no failures."*
 
 ---
 
@@ -105,7 +105,7 @@ EF Core always sends parameters, never concatenated strings (we also tested a `'
 `<GenerateDocumentationFile>` writes the `///` comments to an XML file that Swashbuckle reads (`IncludeXmlComments` in `Program.cs`).
 
 **How do you know it works?**
-173 integration tests (SQLite and real SQL Server), a 43-request Postman run, and a Swagger export - all in `docs/evidence` or reproducible with one command.
+180 integration tests (SQLite and real SQL Server), a 43-request Postman run, and a Swagger export - all in `docs/evidence` or reproducible with one command.
 
 **What would you do differently with more time?**
 Auth, concurrency tokens, soft delete + audit log, status workflow rules (e.g. no going back from Completed), health checks, CI pipeline running the tests.

@@ -1,6 +1,6 @@
 # Moving the project to your office laptop, one step at a time
 
-This repository was built as **18 small steps**. Each step is one Git commit with a tag (`step-00-...` to `step-17-...`),
+This repository was built as **19 small steps**. Each step is one Git commit with a tag (`step-00-...` to `step-18-...`),
 and **every step builds on its own** (each was checked out in a clean folder, built and tested).
 You bring the steps to the office laptop one by one: copy the step, build it, run it, commit it with your office identity.
 The office repository then grows in the same order the project was built.
@@ -70,7 +70,7 @@ Tips:
 - Don't worry that the copy shows many files for one step - that is the commit. Read `git diff --staged` before you commit; it is the best way to learn.
 - If `-ExecutionPolicy Bypass` is blocked by policy, open the `.ps1` file and run the same `git archive` command by hand, or ask for the files to be copied in Explorer.
 
-## 5. The 18 steps
+## 5. The 19 steps
 
 Suggested pace follows the assignment's 3-day plan. The commit messages below are *suggestions in plain wording* - use your own.
 
@@ -94,6 +94,7 @@ Suggested pace follows the assignment's 3-day plan. The commit messages below ar
 | 3 | 15 | `step-15-final-review-fixes` | final review: newer test packages (no known vulnerabilities), clearer "database not found" start-up message, Docker connection note (`127.0.0.1`) | `dotnet test` -> 171 passed, 2 skipped | `Upgrade test packages and clarify start-up messages` |
 | 3 | 16 | `step-16-prepare-public-release` | removes the references to the (internal) assignment brief; documentation only | read the README | `Update documentation for public release` |
 | 3 | 17 | `step-17-docker-secret-helper` | `scripts/use-docker-sqlserver.ps1` + README note: stores the Docker SQL Server connection string for you. **Skip it if you use LocalDB** | read the README | `Add helper script for the Docker SQL Server setting` |
+| 3 | 18 | `step-18-friendlier-swagger` | a clearer Swagger page: groups in a sensible order, quick-start guide, plain-words explanation of every response, "Try it out" on by default, address `/` redirects to Swagger; 7 new tests | `dotnet run`, open http://localhost:5282 ; `dotnet test` -> 178 passed, 2 skipped | `Make the Swagger page easier to use` |
 
 Notes
 - Step 10's Docker files are optional; the evidence files in step 12 were produced on the personal laptop - **replace them with your own
