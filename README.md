@@ -63,9 +63,15 @@ or an environment variable: `ConnectionStrings__DefaultConnection`.
 ```bash
 copy .env.example .env          # then edit .env and choose your own SA password
 docker compose up -d            # starts SQL Server 2022 on 127.0.0.1,1433
-dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=127.0.0.1,1433;Database=TrainingManagementDb;User Id=sa;Password=<your password>;TrustServerCertificate=True;Encrypt=False;MultipleActiveResultSets=true" --project TrainingManagementApi
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\use-docker-sqlserver.ps1   # once: stores the connection string for you
 dotnet run --project TrainingManagementApi
 ```
+The script reads the password from your `.env` and saves the connection string in your user-secrets store. Doing it by hand instead:
+`dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=127.0.0.1,1433;Database=TrainingManagementDb;User Id=sa;Password=<your password>;TrustServerCertificate=True;Encrypt=False;MultipleActiveResultSets=true" --project TrainingManagementApi`
+
+**Seeing `The system cannot find the file specified` / "LocalDB" errors at start-up?** The API is using the default LocalDB connection
+string because no override is stored for your Windows user. Run the script above (user-secrets belong to one Windows account, so they
+must be set from the same account/terminal that runs `dotnet run`), then restart the API.
 Use `127.0.0.1`, not `localhost`, in that connection string: the container is published on the IPv4 loopback address only, and
 `localhost` may resolve to the IPv6 address first, which refuses the connection.
 SQL Server needs about 20-30 seconds to start; if the API starts sooner it retries for about 15 seconds before giving up (see *Resilience*).
