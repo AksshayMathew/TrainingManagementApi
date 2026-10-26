@@ -6,8 +6,9 @@ namespace TrainingManagementApi.Middleware;
 /// <summary>
 /// Last line of defence: turns any exception thrown while handling a request into a clean JSON error
 /// (RFC 7807 "problem details") instead of a stack trace or a dropped connection.
-/// Expected problems (404, 400) are logged as warnings; anything else is logged as an error with the
-/// full exception and answered with a generic 500 so internal details never reach the client.
+/// Expected problems (404, 400) are reported through the one-line request log (see <see cref="RequestLoggingMiddleware"/>);
+/// anything else is logged as an error with the full exception and answered with a generic 500 so internal
+/// details never reach the client.
 /// </summary>
 public class ExceptionHandlingMiddleware
 {
@@ -70,7 +71,7 @@ public class ExceptionHandlingMiddleware
                     Title = "Resource not found.",
                     Detail = notFound.Message
                 };
-                LogExpected(context, problem);
+                context.Items[RequestLoggingMiddleware.ReasonKey] = notFound.Message;
                 break;
 
             case BusinessRuleException rule:
@@ -82,7 +83,7 @@ public class ExceptionHandlingMiddleware
                     Status = StatusCodes.Status400BadRequest,
                     Title = "One or more validation errors occurred."
                 };
-                LogExpected(context, problem);
+                context.Items[RequestLoggingMiddleware.ReasonKey] = rule.Message;
                 break;
 
             case BadHttpRequestException badRequest:
@@ -92,7 +93,7 @@ public class ExceptionHandlingMiddleware
                     Title = "The request could not be processed.",
                     Detail = badRequest.Message
                 };
-                LogExpected(context, problem);
+                context.Items[RequestLoggingMiddleware.ReasonKey] = badRequest.Message;
                 break;
 
             default:
@@ -117,8 +118,4 @@ public class ExceptionHandlingMiddleware
         await context.Response.WriteAsJsonAsync(
             problem, problem.GetType(), options: null, contentType: ProblemJson);
     }
-
-    private void LogExpected(HttpContext context, ProblemDetails problem) =>
-        _logger.LogWarning("{Method} {Path} -> {StatusCode}: {Detail}",
-            context.Request.Method, context.Request.Path, problem.Status, problem.Detail ?? problem.Title);
 }

@@ -9,7 +9,7 @@ employees, training courses and the training assigned to each employee.
 | API | ASP.NET Core Web API (controllers) |
 | Data | Entity Framework Core 8 + SQL Server (LocalDB / Express / Docker) |
 | API docs | Swagger / OpenAPI (Swashbuckle) |
-| Tests | xUnit integration tests (180) + Postman collection (43 requests) |
+| Tests | xUnit integration tests (187) + Postman collection (43 requests) |
 
 > New to the project? Read [docs/EXPLAINED.md](docs/EXPLAINED.md) first - it explains the problem, the approach and
 > the reasons behind each decision in plain language. Preparing the demo? See [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md).
@@ -234,8 +234,8 @@ Employee 1 ----< TrainingAssignment >---- 1 Course
 
 | What | How | Where the proof is |
 |---|---|---|
-| Automated tests (180) | `dotnet test` (uses in-memory SQLite, nothing to install) | |
-| Same tests on real SQL Server | set `TMS_TEST_SQLSERVER` to a connection string **without** a database name, then `dotnet test` - each test class builds a throw-away database from the real migrations and drops it afterwards | all 180 passed |
+| Automated tests (187) | `dotnet test` (uses in-memory SQLite, nothing to install) | |
+| Same tests on real SQL Server | set `TMS_TEST_SQLSERVER` to a connection string **without** a database name, then `dotnet test` - each test class builds a throw-away database from the real migrations and drops it afterwards | all 187 passed |
 | Manual / Swagger | run the API, open `/swagger`, *Try it out* | [docs/evidence/swagger-ui-overview.png](docs/evidence/swagger-ui-overview.png), [docs/evidence/openapi.json](docs/evidence/openapi.json) |
 | Postman | import [postman/TrainingManagementApi.postman_collection.json](postman/TrainingManagementApi.postman_collection.json), set `baseUrl`, run the collection | |
 | Postman without Postman | `node scripts/run-postman-collection.js postman/TrainingManagementApi.postman_collection.json --report docs/evidence/api-test-run.md` (Node 18+, no install) | [docs/evidence/api-test-run.md](docs/evidence/api-test-run.md) - 43 requests, 74 assertions, 0 failures against SQL Server |
@@ -250,10 +250,10 @@ dotnet test
 
 ## 5. Logging, error handling and resilience
 - **Global exception middleware** (`Middleware/ExceptionHandlingMiddleware.cs`): turns *any* exception into JSON
-  (problem details + `traceId`). Expected problems (404/400) are logged as warnings; unexpected ones as errors with the full exception
+  (problem details + `traceId`). Expected problems (404/400) show up as one warning line per call in the request log; unexpected ones as errors with the full exception
   while the client only sees a generic 500 (the reason is shown only in the Development environment).
 - **Logging**: `ILogger` is used for important operations (create/update/delete/assign - ids only, no personal data) and all errors.
-  Output goes to the console; in Development you also see the SQL EF Core runs.
+  Output goes to the console as ONE line per API call, e.g. `POST /api/employees -> 400 An employee with this email already exists. (240 ms)` (SQL statements are no longer printed).
 - **Start-up resilience**: migrations are retried (5 times, 3 s apart - `Database:StartupRetries`, `Database:StartupRetryDelaySeconds`)
   because the database server may still be starting. If it never comes up the problem is logged and the API **keeps running**
   (data calls return a clean 500). Wrong values in settings fall back to defaults instead of crashing.

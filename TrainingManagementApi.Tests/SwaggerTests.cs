@@ -124,6 +124,41 @@ public class SwaggerTests : IClassFixture<ApiFactory>
     }
 
     [Fact]
+    public async Task ErrorAnswers_AndReturnedObjects_HaveRealisticExamples_NotJustEmptyValues()
+    {
+        var document = await GetDocumentAsync();
+        var getEmployee = document.GetProperty("paths").GetProperty("/api/employees/{id}").GetProperty("get").GetProperty("responses");
+
+        // each error code shows an example that matches THAT code
+        var notFound = getEmployee.GetProperty("404").GetProperty("content").GetProperty("application/json").GetProperty("example");
+        Assert.Equal(404, notFound.GetProperty("status").GetInt32());
+        Assert.Contains("was not found", notFound.GetProperty("detail").GetString());
+
+        var badRequest = getEmployee.GetProperty("400").GetProperty("content").GetProperty("application/json").GetProperty("example");
+        Assert.Equal(400, badRequest.GetProperty("status").GetInt32());
+        Assert.Contains("already exists", badRequest.GetProperty("errors").GetProperty("Email")[0].GetString());
+
+        var serverError = getEmployee.GetProperty("500");
+        Assert.Contains("traceId", serverError.GetProperty("description").GetString());
+        Assert.Equal(500, serverError.GetProperty("content").GetProperty("application/json").GetProperty("example").GetProperty("status").GetInt32());
+
+        // returned objects show real values and plain-words descriptions
+        var employee = document.GetProperty("components").GetProperty("schemas").GetProperty("EmployeeDto").GetProperty("properties");
+        Assert.Equal("Priya Sharma", employee.GetProperty("employeeName").GetProperty("example").GetString());
+        Assert.False(string.IsNullOrWhiteSpace(employee.GetProperty("employeeId").GetProperty("description").GetString()));
+        Assert.False(employee.GetProperty("employeeName").TryGetProperty("nullable", out var nullable) && nullable.GetBoolean(),
+            "text fields should not be shown as nullable");
+    }
+
+    [Fact]
+    public async Task SwaggerPage_GivesEachNewEmployeeExampleAFreshEmail()
+    {
+        var html = await (await _client.GetAsync("/swagger/index.html")).Content.ReadAsStringAsync();
+
+        Assert.Contains("freshEmail", html);   // small script: an e-mail can be used only once
+    }
+
+    [Fact]
     public async Task OpeningJustTheAddress_RedirectsToSwagger_InsteadOfA404()
     {
         using var client = _factory.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });

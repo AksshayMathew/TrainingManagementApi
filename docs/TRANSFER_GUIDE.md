@@ -1,6 +1,6 @@
 # Moving the project to your office laptop, one step at a time
 
-This repository was built as **19 small steps**. Each step is one Git commit with a tag (`step-00-...` to `step-18-...`),
+This repository was built as **20 small steps**. Each step is one Git commit with a tag (`step-00-...` to `step-19-...`),
 and **every step builds on its own** (each was checked out in a clean folder, built and tested).
 You bring the steps to the office laptop one by one: copy the step, build it, run it, commit it with your office identity.
 The office repository then grows in the same order the project was built.
@@ -70,7 +70,7 @@ Tips:
 - Don't worry that the copy shows many files for one step - that is the commit. Read `git diff --staged` before you commit; it is the best way to learn.
 - If `-ExecutionPolicy Bypass` is blocked by policy, open the `.ps1` file and run the same `git archive` command by hand, or ask for the files to be copied in Explorer.
 
-## 5. The 19 steps
+## 5. The 20 steps
 
 Suggested pace follows the assignment's 3-day plan. The commit messages below are *suggestions in plain wording* - use your own.
 
@@ -95,6 +95,7 @@ Suggested pace follows the assignment's 3-day plan. The commit messages below ar
 | 3 | 16 | `step-16-prepare-public-release` | removes the references to the (internal) assignment brief; documentation only | read the README | `Update documentation for public release` |
 | 3 | 17 | `step-17-docker-secret-helper` | `scripts/use-docker-sqlserver.ps1` + README note: stores the Docker SQL Server connection string for you. **Skip it if you use LocalDB** | read the README | `Add helper script for the Docker SQL Server setting` |
 | 3 | 18 | `step-18-friendlier-swagger` | a clearer Swagger page: groups in a sensible order, quick-start guide, plain-words explanation of every response, "Try it out" on by default, address `/` redirects to Swagger; 7 new tests | `dotnet run`, open http://localhost:5282 ; `dotnet test` -> 178 passed, 2 skipped | `Make the Swagger page easier to use` |
+| 3 | 19 | `step-19-clearer-logs-and-schema` | one-line-per-request console log with the reason, fresh e-mail in the Create-employee example, readable Schema tab, correct error examples | `dotnet run`, create two employees in Swagger; `dotnet test` -> 185 passed, 2 skipped | `Clearer console log and Swagger schema` |
 
 Notes
 - Step 10's Docker files are optional; the evidence files in step 12 were produced on the personal laptop - **replace them with your own

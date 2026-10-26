@@ -216,7 +216,7 @@ public class EmployeeService : IEmployeeService
     private static string NormalizeEmail(string email) => email.Trim().ToLowerInvariant();
 
     private static BusinessRuleException EmailAlreadyInUse() =>
-        new(nameof(EmployeeRequestDto.Email), "An employee with this email already exists.");
+        new(nameof(EmployeeRequestDto.Email), "An employee with this email already exists. Use a different e-mail address.");
 
     private static void ApplyRequest(Employee employee, EmployeeRequestDto request, string normalizedEmail)
     {

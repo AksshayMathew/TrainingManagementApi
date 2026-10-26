@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using TrainingManagementApi.Data;
 using TrainingManagementApi.Interfaces;
@@ -18,7 +20,31 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ITrainingAssignmentService, TrainingAssignmentService>();
 
-builder.Services.AddControllers();
+// One line per log entry with a short time stamp (the default prints two lines per entry).
+builder.Logging.AddSimpleConsole(options =>
+{
+    options.SingleLine = true;
+    options.TimestampFormat = "HH:mm:ss ";
+});
+
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+{
+    // Same 400 answer as the built-in one, plus a short reason for the one-line request log
+    // (for example "Email: Email must be a valid e-mail address.").
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var problemFactory = context.HttpContext.RequestServices.GetRequiredService<ProblemDetailsFactory>();
+        var details = problemFactory.CreateValidationProblemDetails(context.HttpContext, context.ModelState);
+
+        context.HttpContext.Items[RequestLoggingMiddleware.ReasonKey] =
+            string.Join(" ", details.Errors.Take(3).Select(error => $"{error.Key}: {error.Value.FirstOrDefault()}"));
+
+        return new BadRequestObjectResult(details)
+        {
+            ContentTypes = { "application/problem+json", "application/problem+xml" }
+        };
+    };
+});
 builder.Services.AddApiDocumentation();   // Swagger - see Swagger/SwaggerConfiguration.cs
 
 var app = builder.Build();
@@ -30,7 +56,9 @@ if (string.IsNullOrWhiteSpace(connectionString))
 
 await app.ApplyMigrationsAsync();
 
-// Must be first so it can catch exceptions from everything below it.
+// Order matters: the request log is outermost (it sees the final answer), then the error handler, which must be able
+// to catch exceptions from everything below it.
+app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (!app.Environment.IsDevelopment())
