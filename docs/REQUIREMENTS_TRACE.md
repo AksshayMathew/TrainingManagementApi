@@ -7,7 +7,7 @@ Section numbers refer to the assignment brief (an internal document that is not 
 | Requirement | Where |
 |---|---|
 | .NET 8, C#, ASP.NET Core Web API | `TrainingManagementApi.csproj` (`net8.0`, `Microsoft.NET.Sdk.Web`), `global.json` |
-| Entity Framework Core + SQL Server | `Data/AppDbContext.cs`, packages `Microsoft.EntityFrameworkCore.SqlServer` 8.0.33, connection string in `appsettings.json` |
+| Entity Framework Core + SQL Server (SQLite only as an optional fallback, `--launch-profile http-sqlite`) | `Data/AppDbContext.cs`, packages `Microsoft.EntityFrameworkCore.SqlServer` 8.0.33, connection string in `appsettings.json` |
 | Swagger / OpenAPI | `Program.cs` (`AddSwaggerGen`, `UseSwagger`, `UseSwaggerUI`, XML comments) - test: `SwaggerTests` |
 | VS Code or Visual Studio, Git | works with both (`.sln`, `launchSettings.json`); Git history = one commit per step |
 

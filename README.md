@@ -52,12 +52,31 @@ Server=(localdb)\MSSQLLocalDB;Database=TrainingManagementDb;Trusted_Connection=T
 | Visual Studio / LocalDB | Nothing. Check with `sqllocaldb info` (should list `MSSQLLocalDB`; create it with `sqllocaldb create MSSQLLocalDB`). |
 | SQL Server Express | Use `Server=.\SQLEXPRESS;Database=TrainingManagementDb;Trusted_Connection=True;TrustServerCertificate=True` (see below how to set it). |
 | A company SQL Server | Use its connection string (see below how to set it). |
+| **No SQL Server at all** | Use the SQLite fallback below - nothing to install. |
 
 To change the connection string **without editing tracked files**, use user-secrets (only applies on your machine):
 ```bash
 dotnet user-secrets set "ConnectionStrings:DefaultConnection" "<your connection string>" --project TrainingManagementApi
 ```
 or an environment variable: `ConnectionStrings__DefaultConnection`.
+
+### No SQL Server? Use SQLite (fallback)
+SQL Server (LocalDB / Express) is the intended database. If it is not available, the same API can store everything in one SQLite file instead -
+same endpoints, same rules, nothing to install:
+
+```bash
+dotnet run --project TrainingManagementApi --launch-profile http-sqlite
+```
+In Visual Studio pick the **http-sqlite** profile in the green-arrow drop-down and press F5. The file `TrainingManagement.db` is created next to the project
+on the first start (delete it to start with empty data). Under the hood the profile sets `Database:Provider=Sqlite` and
+`ConnectionStrings:DefaultConnection=Data Source=TrainingManagement.db`. The EF migrations are written for SQL Server, so with SQLite the tables are created from the model.
+
+### Quick run-through (Swagger + Postman, no Node needed)
+1. Start the API (any option above) and wait for `Now listening on: http://localhost:5282`.
+2. Open **http://localhost:5282** - Swagger opens. Follow the "How to use this page" guide on top: create an employee, a course, assign, view, change status.
+3. Postman app: *Import* > choose `postmanTrainingManagementApi.postman_collection.json` > open the collection > **Run** > *Run collection*. Expect 43 requests passed
+   (set the collection variable `baseUrl` if you use another port).
+4. Optional checks: `dotnet test` (no database server needed).
 
 **Seeing `The system cannot find the file specified` / "LocalDB" errors at start-up?** LocalDB is not installed or its instance is missing:
 run `sqllocaldb info` (create it with `sqllocaldb create MSSQLLocalDB`), or point the API at another SQL Server with the user-secrets command above,

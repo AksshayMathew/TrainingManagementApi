@@ -485,3 +485,8 @@ $RECYCLE.BIN/
 
 # Local secrets - never commit
 .env
+
+# SQLite fallback database files
+*.db
+*.db-shm
+*.db-wal

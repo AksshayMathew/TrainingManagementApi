@@ -33,7 +33,15 @@ public static class DatabaseInitializer
             {
                 using var scope = app.Services.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                await db.Database.MigrateAsync(app.Lifetime.ApplicationStopping);
+                if (db.Database.IsSqlite())
+                {
+                    // The EF migrations are written for SQL Server; for the SQLite fallback the same tables are created from the model.
+                    await db.Database.EnsureCreatedAsync(app.Lifetime.ApplicationStopping);
+                }
+                else
+                {
+                    await db.Database.MigrateAsync(app.Lifetime.ApplicationStopping);
+                }
                 app.Logger.LogInformation("Database is up to date.");
                 return;
             }

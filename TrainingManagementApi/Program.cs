@@ -13,7 +13,21 @@ var builder = WebApplication.CreateBuilder(args);
 // own machine without touching tracked files, set it with `dotnet user-secrets` or an environment variable.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+// SQL Server is the default. If no SQL Server is available, set Database:Provider to "Sqlite" (see the README and the
+// "http-sqlite" launch profile): same API, same tables, stored in a single file.
+var useSqlite = string.Equals(builder.Configuration["Database:Provider"], "Sqlite", StringComparison.OrdinalIgnoreCase);
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    if (useSqlite)
+    {
+        options.UseSqlite(connectionString);
+    }
+    else
+    {
+        options.UseSqlServer(connectionString);
+    }
+});
 
 // Services (business rules). Scoped = one instance per HTTP request, matching the DbContext lifetime.
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();

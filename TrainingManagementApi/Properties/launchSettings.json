@@ -19,6 +19,18 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
+    "http-sqlite": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5282",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Database__Provider": "Sqlite",
+        "ConnectionStrings__DefaultConnection": "Data Source=TrainingManagement.db"
+      }
+    },
     "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,

@@ -1,6 +1,6 @@
 # Moving the project to your office laptop, one step at a time
 
-This repository was built as **22 small steps**. Each step is one Git commit with a tag (`step-00-...` to `step-21-...`),
+This repository was built as **23 small steps**. Each step is one Git commit with a tag (`step-00-...` to `step-22-...`),
 and **every step builds on its own** (each was checked out in a clean folder, built and tested).
 You bring the steps to the office laptop one by one: copy the step, build it, run it, commit it with your office identity.
 The office repository then grows in the same order the project was built.
@@ -70,7 +70,7 @@ Tips:
 - Don't worry that the copy shows many files for one step - that is the commit. Read `git diff --staged` before you commit; it is the best way to learn.
 - If `-ExecutionPolicy Bypass` is blocked by policy, open the `.ps1` file and run the same `git archive` command by hand, or ask for the files to be copied in Explorer.
 
-## 5. The 22 steps
+## 5. The 23 steps
 
 Suggested pace follows the assignment's 3-day plan. The commit messages below are *suggestions in plain wording* - use your own.
 
@@ -98,6 +98,7 @@ Suggested pace follows the assignment's 3-day plan. The commit messages below ar
 | 3 | 19 | `step-19-clearer-logs-and-schema` | one-line-per-request console log with the reason, fresh e-mail in the Create-employee example, readable Schema tab, correct error examples | `dotnet run`, create two employees in Swagger; `dotnet test` -> 185 passed, 2 skipped | `Clearer console log and Swagger schema` |
 | 3 | 20 | `step-20-postman-runner-api-check` | the Postman runner checks the API is running first and says how to start it | start the API, then `node scriptsun-postman-collection.js` | `Make the Postman runner explain a missing API` |
 | 3 | 21 | `step-21-remove-docker` | removes the optional Docker files and Docker wording; the project runs with LocalDB / SQL Express only | `dotnet test`; README has no Docker section | `Remove optional Docker files` |
+| 3 | 22 | `step-22-sqlite-fallback` | optional SQLite fallback (`--launch-profile http-sqlite`) for machines without SQL Server; 1 new test | `dotnet run --project TrainingManagementApi --launch-profile http-sqlite`; `dotnet test` -> 186 passed, 2 skipped | `Add SQLite fallback for machines without SQL Server` |
 
 Notes
 - Steps 10 and 17 are about Docker and are not needed at the office - skip them (step 21 removes those files anyway). The evidence files in step 12 were produced on the personal laptop - **replace them with your own
@@ -126,6 +127,7 @@ VS Code instead: install *C# Dev Kit*, open the folder, then `dotnet run --proje
 |---|---|
 | `A compatible .NET SDK was not found` | install any .NET 8 SDK (`global.json` accepts 8.0.100 or newer within 8.0) |
 | `A network-related or instance-specific error ... LocalDB` | LocalDB instance missing: `sqllocaldb create MSSQLLocalDB` then `sqllocaldb start MSSQLLocalDB`; or use another server via user-secrets (README section 1) |
+| No SQL Server / LocalDB on the machine | Use the SQLite fallback: `dotnet run --project TrainingManagementApi --launch-profile http-sqlite` (Visual Studio: pick the **http-sqlite** profile) |
 | The API takes ~30-40 s to start, then every data call is a 500; the log says `The system cannot find the file specified` | LocalDB is not installed / the instance does not exist (see the LocalDB row above). The API retries 5 times before giving up, hence the delay |
 | The API starts but every data call is a 500 | read the console: the start-up message says why the migration failed (server unreachable, bad connection string) |
 | `Failed to restore` / NuGet errors | the office network or proxy blocks nuget.org: configure the internal feed in `nuget.config` |
