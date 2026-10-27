@@ -12,7 +12,7 @@ public static class DatabaseInitializer
     /// needs <c>dotnet run</c>. Settings (all optional) under <c>Database</c> in appsettings:
     /// <c>MigrateOnStartup</c> (true), <c>StartupRetries</c> (5) and <c>StartupRetryDelaySeconds</c> (3).
     ///
-    /// The database server may still be starting (typical with Docker), so a few attempts are made. If all fail
+    /// The database server may still be starting, so a few attempts are made. If all fail
     /// the problem is logged, never thrown: the API stays up and requests that need the database return a clean
     /// 500 instead of the whole process dying. Bad setting values fall back to the defaults for the same reason.
     /// </summary>

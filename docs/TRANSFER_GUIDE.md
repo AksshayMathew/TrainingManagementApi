@@ -1,6 +1,6 @@
 # Moving the project to your office laptop, one step at a time
 
-This repository was built as **21 small steps**. Each step is one Git commit with a tag (`step-00-...` to `step-20-...`),
+This repository was built as **22 small steps**. Each step is one Git commit with a tag (`step-00-...` to `step-21-...`),
 and **every step builds on its own** (each was checked out in a clean folder, built and tested).
 You bring the steps to the office laptop one by one: copy the step, build it, run it, commit it with your office identity.
 The office repository then grows in the same order the project was built.
@@ -70,7 +70,7 @@ Tips:
 - Don't worry that the copy shows many files for one step - that is the commit. Read `git diff --staged` before you commit; it is the best way to learn.
 - If `-ExecutionPolicy Bypass` is blocked by policy, open the `.ps1` file and run the same `git archive` command by hand, or ask for the files to be copied in Explorer.
 
-## 5. The 21 steps
+## 5. The 22 steps
 
 Suggested pace follows the assignment's 3-day plan. The commit messages below are *suggestions in plain wording* - use your own.
 
@@ -86,20 +86,21 @@ Suggested pace follows the assignment's 3-day plan. The commit messages below ar
 | 2 | 7 | `step-07-training-assignment-model` | `TrainingAssignment` entity, relationships, constraints, migration | `dotnet run`; check the 3 tables and foreign keys in SQL Server Object Explorer | `Add TrainingAssignment entity and relationships` |
 | 2 | 8 | `step-08-training-assignment-module` | assign / view / update status / delete + all rules, delete protection, tests | Swagger: assign a course, try a duplicate; `dotnet test` -> 141 passed, 2 skipped | `Implement training assignment APIs and validations` |
 | 3 | 9 | `step-09-employee-search-paging` | search, department filter, sort, paging on `GET /api/employees` (bonus) | Swagger: `?search=...&sortBy=Name&page=1&pageSize=5` | `Add employee search, sorting and paging` |
-| 3 | 10 | `step-10-dev-sqlserver-compose` | optional Docker SQL Server (`docker-compose.yml`, `.env.example`) | **skip it if you use LocalDB** | `Add optional docker compose for SQL Server` |
+| 3 | 10 | `step-10-dev-sqlserver-compose` | (optional Docker SQL Server files - removed again in step 21) | **skip this step** | `Add optional docker compose for SQL Server` |
 | 3 | 11 | `step-11-database-script` | `docs/database/create-database.sql` | open it | `Add database creation script` |
 | 3 | 12 | `step-12-postman-and-evidence` | Postman collection, no-install runner script, evidence folder | import the collection in Postman and run it | `Add Postman collection and API test evidence` |
 | 3 | 13 | `step-13-startup-resilience` | migration retry at start-up, safer settings parsing, tests | `dotnet test` -> 171 passed, 2 skipped | `Retry migrations at start-up and harden settings` |
 | 3 | 14 | `step-14-readme-and-docs` | README, explanation, demo script, trace, this guide | read them | `Add README and project documentation` |
 | 3 | 15 | `step-15-final-review-fixes` | final review: newer test packages (no known vulnerabilities), clearer "database not found" start-up message, Docker connection note (`127.0.0.1`) | `dotnet test` -> 171 passed, 2 skipped | `Upgrade test packages and clarify start-up messages` |
 | 3 | 16 | `step-16-prepare-public-release` | removes the references to the (internal) assignment brief; documentation only | read the README | `Update documentation for public release` |
-| 3 | 17 | `step-17-docker-secret-helper` | `scripts/use-docker-sqlserver.ps1` + README note: stores the Docker SQL Server connection string for you. **Skip it if you use LocalDB** | read the README | `Add helper script for the Docker SQL Server setting` |
+| 3 | 17 | `step-17-docker-secret-helper` | (Docker helper script - removed again in step 21) | **skip this step** | `Add helper script for the Docker SQL Server setting` |
 | 3 | 18 | `step-18-friendlier-swagger` | a clearer Swagger page: groups in a sensible order, quick-start guide, plain-words explanation of every response, "Try it out" on by default, address `/` redirects to Swagger; 7 new tests | `dotnet run`, open http://localhost:5282 ; `dotnet test` -> 178 passed, 2 skipped | `Make the Swagger page easier to use` |
 | 3 | 19 | `step-19-clearer-logs-and-schema` | one-line-per-request console log with the reason, fresh e-mail in the Create-employee example, readable Schema tab, correct error examples | `dotnet run`, create two employees in Swagger; `dotnet test` -> 185 passed, 2 skipped | `Clearer console log and Swagger schema` |
 | 3 | 20 | `step-20-postman-runner-api-check` | the Postman runner checks the API is running first and says how to start it | start the API, then `node scriptsun-postman-collection.js` | `Make the Postman runner explain a missing API` |
+| 3 | 21 | `step-21-remove-docker` | removes the optional Docker files and Docker wording; the project runs with LocalDB / SQL Express only | `dotnet test`; README has no Docker section | `Remove optional Docker files` |
 
 Notes
-- Step 10's Docker files are optional; the evidence files in step 12 were produced on the personal laptop - **replace them with your own
+- Steps 10 and 17 are about Docker and are not needed at the office - skip them (step 21 removes those files anyway). The evidence files in step 12 were produced on the personal laptop - **replace them with your own
   screenshots and run output from the office laptop** (see section 8) before you submit.
 - You do **not** need to copy `scripts/export-step.ps1` itself to the office repo.
 - If you must hand in less history, you can merge neighbours (e.g. steps 10-13 in one commit) - use `-Step` for each, then commit once.

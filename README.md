@@ -7,7 +7,7 @@ employees, training courses and the training assigned to each employee.
 |---|---|
 | Runtime / SDK | .NET 8 |
 | API | ASP.NET Core Web API (controllers) |
-| Data | Entity Framework Core 8 + SQL Server (LocalDB / Express / Docker) |
+| Data | Entity Framework Core 8 + SQL Server (LocalDB or SQL Server Express) |
 | API docs | Swagger / OpenAPI (Swashbuckle) |
 | Tests | xUnit integration tests (187) + Postman collection (43 requests) |
 
@@ -20,7 +20,7 @@ employees, training courses and the training assigned to each employee.
 
 ### Prerequisites
 - **.NET 8 SDK** (`dotnet --list-sdks` should show `8.0.x`)
-- **SQL Server**: LocalDB (comes with Visual Studio) or SQL Server Express - or the optional Docker SQL Server below
+- **SQL Server**: LocalDB (comes with Visual Studio) or SQL Server Express
 - **Git**
 - Visual Studio 2022 (17.8 or newer) **or** VS Code with the C# Dev Kit
 
@@ -51,7 +51,7 @@ Server=(localdb)\MSSQLLocalDB;Database=TrainingManagementDb;Trusted_Connection=T
 |---|---|
 | Visual Studio / LocalDB | Nothing. Check with `sqllocaldb info` (should list `MSSQLLocalDB`; create it with `sqllocaldb create MSSQLLocalDB`). |
 | SQL Server Express | Use `Server=.\SQLEXPRESS;Database=TrainingManagementDb;Trusted_Connection=True;TrustServerCertificate=True` (see below how to set it). |
-| Neither (e.g. personal laptop) | Use the Docker SQL Server below. |
+| A company SQL Server | Use its connection string (see below how to set it). |
 
 To change the connection string **without editing tracked files**, use user-secrets (only applies on your machine):
 ```bash
@@ -59,22 +59,10 @@ dotnet user-secrets set "ConnectionStrings:DefaultConnection" "<your connection 
 ```
 or an environment variable: `ConnectionStrings__DefaultConnection`.
 
-### Optional: SQL Server in Docker
-```bash
-copy .env.example .env          # then edit .env and choose your own SA password
-docker compose up -d            # starts SQL Server 2022 on 127.0.0.1,1433
-powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\use-docker-sqlserver.ps1   # once: stores the connection string for you
-dotnet run --project TrainingManagementApi
-```
-The script reads the password from your `.env` and saves the connection string in your user-secrets store. Doing it by hand instead:
-`dotnet user-secrets set "ConnectionStrings:DefaultConnection" "Server=127.0.0.1,1433;Database=TrainingManagementDb;User Id=sa;Password=<your password>;TrustServerCertificate=True;Encrypt=False;MultipleActiveResultSets=true" --project TrainingManagementApi`
-
-**Seeing `The system cannot find the file specified` / "LocalDB" errors at start-up?** The API is using the default LocalDB connection
-string because no override is stored for your Windows user. Run the script above (user-secrets belong to one Windows account, so they
-must be set from the same account/terminal that runs `dotnet run`), then restart the API.
-Use `127.0.0.1`, not `localhost`, in that connection string: the container is published on the IPv4 loopback address only, and
-`localhost` may resolve to the IPv6 address first, which refuses the connection.
-SQL Server needs about 20-30 seconds to start; if the API starts sooner it retries for about 15 seconds before giving up (see *Resilience*).
+**Seeing `The system cannot find the file specified` / "LocalDB" errors at start-up?** LocalDB is not installed or its instance is missing:
+run `sqllocaldb info` (create it with `sqllocaldb create MSSQLLocalDB`), or point the API at another SQL Server with the user-secrets command above,
+then restart the API. User-secrets belong to one Windows account, so set them from the same account/terminal that runs `dotnet run`.
+If the API starts before the database is ready it retries for about 15 seconds before giving up (see *Resilience*).
 
 ### Database creation script / migrations
 - EF Core migrations live in `TrainingManagementApi/Migrations` (`InitialCreate`, `AddCourse`, `AddTrainingAssignment`).
@@ -197,7 +185,6 @@ Not found:
 TrainingManagementApi.sln
 global.json                          pins the SDK family (8.0.x)
 .config/dotnet-tools.json            dotnet-ef as a local tool
-docker-compose.yml, .env.example     OPTIONAL SQL Server for development
 TrainingManagementApi/               the API project
   Controllers/    HTTP only: read the request, call a service, return the result
   Services/       business rules + EF Core queries (EmployeeService, CourseService, TrainingAssignmentService)
@@ -242,7 +229,7 @@ Employee 1 ----< TrainingAssignment >---- 1 Course
 
 Example for the real-SQL-Server run (PowerShell):
 ```powershell
-$env:TMS_TEST_SQLSERVER = "Server=127.0.0.1,1433;User Id=sa;Password=<your password>;TrustServerCertificate=True;Encrypt=False"
+$env:TMS_TEST_SQLSERVER = "Server=(localdb)\MSSQLLocalDB;Trusted_Connection=True;TrustServerCertificate=True"
 dotnet test
 ```
 
@@ -283,7 +270,7 @@ The assignment leaves some details open. These are the decisions taken (each is 
 
 ## 7. Known limitations and ideas for production
 - **No authentication / authorization** (JWT + roles is a listed bonus, not implemented).
-- Not implemented bonuses: e-mail notification after assignment, Dockerising the API, Azure App Service deployment.
+- Not implemented bonuses: JWT authentication, e-mail notification after assignment, Dockerising the API, Azure App Service deployment.
 - Swagger is open in every environment - restrict or disable it in production.
 - No optimistic concurrency tokens: with simultaneous edits of the same row the last save wins.
 - Hard deletes only (no soft delete / audit trail); no history of status changes.

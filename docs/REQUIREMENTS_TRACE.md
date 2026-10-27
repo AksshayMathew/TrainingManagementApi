@@ -106,5 +106,5 @@ Section numbers refer to the assignment brief (an internal document that is not 
 | Global exception middleware | **Done** |
 | JWT authentication and role-based authorization | Not done |
 | E-mail notification after a course assignment | Not done |
-| Dockerize the API | Not done (a Docker SQL Server for development is provided) |
+| Dockerize the API | Not done (deliberately: the project needs no Docker) |
 | Deploy to Azure App Service | Not done |
