@@ -96,6 +96,20 @@ async function run() {
 
   console.log(`Collection: ${collection.info.name}\nBase URL:   ${variables.baseUrl}\n`);
 
+  // Check the API is reachable BEFORE running 43 requests, and explain what to do if it is not.
+  try {
+    await fetch(variables.baseUrl + '/swagger/v1/swagger.json');
+  } catch {
+    console.error(`The API is not running at ${variables.baseUrl}, so nothing can be tested.\n`);
+    console.error('1. Open a SECOND terminal window and start it:');
+    console.error('     cd C:\\dev\\TrainingManagementApi        (your project folder)');
+    console.error('     docker compose up -d                     (only if you use the Docker SQL Server)');
+    console.error('     dotnet run --project TrainingManagementApi');
+    console.error('2. Wait for the line  "Now listening on: ' + variables.baseUrl + '"');
+    console.error('3. Run this command again in the first window (leave the API window open).');
+    process.exit(2);
+  }
+
   for (const { folder, item } of requests) {
     const record = { folder, name: item.name, tests: [], method: item.request.method };
     const pmBase = {

@@ -238,7 +238,7 @@ Employee 1 ----< TrainingAssignment >---- 1 Course
 | Same tests on real SQL Server | set `TMS_TEST_SQLSERVER` to a connection string **without** a database name, then `dotnet test` - each test class builds a throw-away database from the real migrations and drops it afterwards | all 187 passed |
 | Manual / Swagger | run the API, open `/swagger`, *Try it out* | [docs/evidence/swagger-ui-overview.png](docs/evidence/swagger-ui-overview.png), [docs/evidence/openapi.json](docs/evidence/openapi.json) |
 | Postman | import [postman/TrainingManagementApi.postman_collection.json](postman/TrainingManagementApi.postman_collection.json), set `baseUrl`, run the collection | |
-| Postman without Postman | `node scripts/run-postman-collection.js postman/TrainingManagementApi.postman_collection.json --report docs/evidence/api-test-run.md` (Node 18+, no install) | [docs/evidence/api-test-run.md](docs/evidence/api-test-run.md) - 43 requests, 74 assertions, 0 failures against SQL Server |
+| Postman without Postman (**the API must be running in another window first**) | `node scripts/run-postman-collection.js postman/TrainingManagementApi.postman_collection.json --report docs/evidence/api-test-run.md` (Node 18+, no install) | [docs/evidence/api-test-run.md](docs/evidence/api-test-run.md) - 43 requests, 74 assertions, 0 failures against SQL Server |
 
 Example for the real-SQL-Server run (PowerShell):
 ```powershell
