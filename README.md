@@ -301,6 +301,7 @@ The assignment leaves some details open. These are the decisions taken (each is 
 | Document | Purpose |
 |---|---|
 | [docs/EXPLAINED.md](docs/EXPLAINED.md) | The assignment in simple words: what, how and **why** |
+| [docs/STUDY_GUIDE.md](docs/STUDY_GUIDE.md) | Every code file explained, C#/.NET/SOLID concepts, and 92 viva flashcards |
 | [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md) | 10-minute demo plan + likely questions and answers |
 | [docs/REQUIREMENTS_TRACE.md](docs/REQUIREMENTS_TRACE.md) | Every requirement -> the code and tests that satisfy it |
 | [docs/TRANSFER_GUIDE.md](docs/TRANSFER_GUIDE.md) | Moving the project to another laptop one commit at a time |

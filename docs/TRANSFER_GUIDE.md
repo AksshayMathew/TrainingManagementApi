@@ -1,6 +1,6 @@
 # Moving the project to your office laptop, one step at a time
 
-This repository was built as **23 small steps**. Each step is one Git commit with a tag (`step-00-...` to `step-22-...`),
+This repository was built as **24 small steps**. Each step is one Git commit with a tag (`step-00-...` to `step-23-...`),
 and **every step builds on its own** (each was checked out in a clean folder, built and tested).
 You bring the steps to the office laptop one by one: copy the step, build it, run it, commit it with your office identity.
 The office repository then grows in the same order the project was built.
@@ -70,7 +70,7 @@ Tips:
 - Don't worry that the copy shows many files for one step - that is the commit. Read `git diff --staged` before you commit; it is the best way to learn.
 - If `-ExecutionPolicy Bypass` is blocked by policy, open the `.ps1` file and run the same `git archive` command by hand, or ask for the files to be copied in Explorer.
 
-## 5. The 23 steps
+## 5. The 24 steps
 
 Suggested pace follows the assignment's 3-day plan. The commit messages below are *suggestions in plain wording* - use your own.
 
@@ -99,6 +99,7 @@ Suggested pace follows the assignment's 3-day plan. The commit messages below ar
 | 3 | 20 | `step-20-postman-runner-api-check` | the Postman runner checks the API is running first and says how to start it | start the API, then `node scriptsun-postman-collection.js` | `Make the Postman runner explain a missing API` |
 | 3 | 21 | `step-21-remove-docker` | removes the optional Docker files and Docker wording; the project runs with LocalDB / SQL Express only | `dotnet test`; README has no Docker section | `Remove optional Docker files` |
 | 3 | 22 | `step-22-sqlite-fallback` | optional SQLite fallback (`--launch-profile http-sqlite`) for machines without SQL Server; 1 new test | `dotnet run --project TrainingManagementApi --launch-profile http-sqlite`; `dotnet test` -> 186 passed, 2 skipped | `Add SQLite fallback for machines without SQL Server` |
+| 3 | 23 | `step-23-study-guide` | `docs/STUDY_GUIDE.md`: code tour, C#/.NET/SOLID concepts, 92 viva flashcards | read it | `Add study guide with viva flashcards` |
 
 Notes
 - Steps 10 and 17 are about Docker and are not needed at the office - skip them (step 21 removes those files anyway). The evidence files in step 12 were produced on the personal laptop - **replace them with your own
